@@ -1,0 +1,92 @@
+import type { BuildingPreset } from "@/lib/types";
+
+/**
+ * Example buildings. Each room is seeded with its template's recommended setup
+ * so the bill of materials is useful immediately after loading a preset.
+ */
+export const buildingPresets: BuildingPreset[] = [
+  {
+    id: "acute-care-hospital",
+    name: "Example acute care hospital",
+    description:
+      "A compact three-floor hospital with emergency, imaging, surgery, critical care and inpatient wards.",
+    floors: ["Ground floor", "Level 1", "Level 2"],
+    rooms: [
+      { templateId: "main-reception", floorIndex: 0 },
+      { templateId: "ed-exam-bay", floorIndex: 0 },
+      { templateId: "ed-exam-bay", floorIndex: 0 },
+      { templateId: "trauma-resus-bay", floorIndex: 0 },
+      { templateId: "ct-suite", floorIndex: 0 },
+      { templateId: "xray-room", floorIndex: 0 },
+      { templateId: "clinical-chemistry-lab", floorIndex: 0 },
+      { templateId: "main-pharmacy", floorIndex: 0 },
+      { templateId: "operating-room", floorIndex: 1 },
+      { templateId: "operating-room", floorIndex: 1 },
+      { templateId: "pacu-bay", floorIndex: 1 },
+      { templateId: "pacu-bay", floorIndex: 1 },
+      { templateId: "icu-bay", floorIndex: 1 },
+      { templateId: "icu-bay", floorIndex: 1 },
+      { templateId: "icu-bay", floorIndex: 1 },
+      { templateId: "icu-bay", floorIndex: 1 },
+      { templateId: "cssd-decontamination", floorIndex: 1 },
+      { templateId: "sterilizer-room", floorIndex: 1 },
+      { templateId: "med-surg-patient-room", floorIndex: 2 },
+      { templateId: "med-surg-patient-room", floorIndex: 2 },
+      { templateId: "med-surg-patient-room", floorIndex: 2 },
+      { templateId: "med-surg-patient-room", floorIndex: 2 },
+      { templateId: "med-surg-patient-room", floorIndex: 2 },
+      { templateId: "med-surg-patient-room", floorIndex: 2 },
+      { templateId: "nurses-station", floorIndex: 2 },
+      { templateId: "clean-utility", floorIndex: 2 },
+      { templateId: "soiled-utility", floorIndex: 2 },
+    ],
+  },
+  {
+    id: "outpatient-clinic",
+    name: "Example outpatient clinic",
+    description:
+      "A two-floor community clinic with exam rooms, diagnostics, immunization and staff support.",
+    floors: ["Ground floor", "Level 1"],
+    rooms: [
+      { templateId: "main-reception", floorIndex: 0 },
+      { templateId: "exam-room", floorIndex: 0 },
+      { templateId: "exam-room", floorIndex: 0 },
+      { templateId: "exam-room", floorIndex: 0 },
+      { templateId: "exam-room", floorIndex: 0 },
+      { templateId: "consultation-room", floorIndex: 0 },
+      { templateId: "phlebotomy-room", floorIndex: 0 },
+      { templateId: "point-of-care-testing", floorIndex: 0 },
+      { templateId: "immunization-room", floorIndex: 0 },
+      { templateId: "wound-care-room", floorIndex: 1 },
+      { templateId: "ultrasound-room", floorIndex: 1 },
+      { templateId: "echo-stress-lab", floorIndex: 1 },
+      { templateId: "telehealth-room", floorIndex: 1 },
+      { templateId: "staff-break-room", floorIndex: 1 },
+      { templateId: "clean-utility", floorIndex: 1 },
+    ],
+  },
+  {
+    id: "surgical-center",
+    name: "Example surgical center",
+    description:
+      "A focused two-floor surgical center with pre-op, theatres, recovery, endoscopy and sterile processing.",
+    floors: ["Ground floor", "Level 1"],
+    rooms: [
+      { templateId: "main-reception", floorIndex: 0 },
+      { templateId: "pre-op-holding", floorIndex: 0 },
+      { templateId: "pre-op-holding", floorIndex: 0 },
+      { templateId: "operating-room", floorIndex: 0 },
+      { templateId: "operating-room", floorIndex: 0 },
+      { templateId: "sterile-core", floorIndex: 0 },
+      { templateId: "pacu-bay", floorIndex: 1 },
+      { templateId: "pacu-bay", floorIndex: 1 },
+      { templateId: "phase-2-recovery", floorIndex: 1 },
+      { templateId: "endoscopy-suite", floorIndex: 1 },
+      { templateId: "cssd-decontamination", floorIndex: 1 },
+      { templateId: "cssd-assembly", floorIndex: 1 },
+      { templateId: "sterilizer-room", floorIndex: 1 },
+      { templateId: "equipment-storage", floorIndex: 1 },
+      { templateId: "staff-break-room", floorIndex: 1 },
+    ],
+  },
+];

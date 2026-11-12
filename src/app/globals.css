@@ -2,25 +2,68 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #0f172a;
+  --muted: #f4f7fa;
+  --muted-foreground: #55677d;
+  --card: #ffffff;
+  --border: #e3e9f0;
+  --brand: #0f766e;
+  --brand-foreground: #ffffff;
+  --brand-soft: #e6f6f3;
+  --good: #0f766e;
+  --good-soft: #e6f6f3;
+  --warn: #b45309;
+  --warn-soft: #fdf3e3;
+  --crit: #b91c1c;
+  --crit-soft: #fdeaea;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #080d12;
+    --foreground: #e9eef4;
+    --muted: #0e1720;
+    --muted-foreground: #9aacbd;
+    --card: #0e1720;
+    --border: #1e2b37;
+    --brand: #2dd4bf;
+    --brand-foreground: #04231f;
+    --brand-soft: #0d2b28;
+    --good: #2dd4bf;
+    --good-soft: #0d2b28;
+    --warn: #fbbf24;
+    --warn-soft: #2a2110;
+    --crit: #f87171;
+    --crit-soft: #2e1414;
+  }
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-card: var(--card);
+  --color-border: var(--border);
+  --color-brand: var(--brand);
+  --color-brand-foreground: var(--brand-foreground);
+  --color-brand-soft: var(--brand-soft);
+  --color-good: var(--good);
+  --color-good-soft: var(--good-soft);
+  --color-warn: var(--warn);
+  --color-warn-soft: var(--warn-soft);
+  --color-crit: var(--crit);
+  --color-crit-soft: var(--crit-soft);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
 }
