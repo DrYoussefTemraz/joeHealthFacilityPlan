@@ -98,6 +98,8 @@ export type IconName =
   | "mail"
   | "clock"
   | "check"
+  | "alert"
+  | "refresh"
   | "arrow-right";
 
 export interface PlanningCapability {

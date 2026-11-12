@@ -1,0 +1,153 @@
+// JoeHealthPlan database schema.
+//
+// Money is stored in cents. Areas are stored in square meters.
+// Enum-like columns use strings that match the domain unions in
+// `src/lib/types.ts`; validation stays in the TypeScript layer for now.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Facility {
+  slug              String           @id
+  name              String
+  type              String
+  status            String
+  city              String
+  region            String
+  openedYear        Int
+  siteAreaSqm       Int
+  grossFloorAreaSqm Int
+  licensedBeds      Int?
+  occupancyPct      Int
+  summary           String
+  serviceLines      String[]
+  sortOrder         Int              @default(0)
+  zones             Zone[]
+  projects          CapitalProject[]
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+}
+
+model Zone {
+  id             String   @id
+  facilitySlug   String
+  facility       Facility @relation(fields: [facilitySlug], references: [slug], onDelete: Cascade)
+  name           String
+  function       String
+  areaSqm        Int
+  utilizationPct Int
+  condition      String
+  sortOrder      Int      @default(0)
+
+  @@index([facilitySlug])
+}
+
+model CapitalProject {
+  id           String   @id
+  facilitySlug String
+  facility     Facility @relation(fields: [facilitySlug], references: [slug], onDelete: Cascade)
+  name         String
+  category     String
+  phase        String
+  // Some portfolio budgets exceed 2.1 billion cents, so this column is BIGINT.
+  budgetCents  BigInt
+  startYear    Int
+  targetYear   Int
+  progressPct  Int
+  description  String
+  sortOrder    Int      @default(0)
+
+  @@index([facilitySlug])
+}
+
+model AssetTemplate {
+  id                String             @id
+  name              String
+  category          String
+  description       String
+  unitCostCents     Int
+  utilities         String[]
+  roomCategories    String[]
+  appliesToAllRooms Boolean            @default(false)
+  installation      String
+  sortOrder         Int                @default(0)
+  recommendedIn     RecommendedAsset[]
+  presetRoomAssets  PresetRoomAsset[]
+
+  @@index([category])
+}
+
+model RoomTemplate {
+  id               String             @id
+  name             String
+  category         String
+  description      String
+  defaultAreaSqm   Int
+  patientBeds      Int
+  utilities        String[]
+  sortOrder        Int                @default(0)
+  recommendedSetup RecommendedAsset[]
+  presetRooms      PresetRoom[]
+
+  @@index([category])
+}
+
+model RecommendedAsset {
+  roomId    String
+  assetId   String
+  quantity  Int
+  sortOrder Int           @default(0)
+  room      RoomTemplate  @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  asset     AssetTemplate @relation(fields: [assetId], references: [id], onDelete: Cascade)
+
+  @@id([roomId, assetId])
+}
+
+model BuildingPreset {
+  id          String        @id
+  name        String
+  description String
+  sortOrder   Int           @default(0)
+  floors      PresetFloor[]
+  rooms       PresetRoom[]
+}
+
+model PresetFloor {
+  id       String         @id @default(cuid())
+  presetId String
+  name     String
+  index    Int
+  preset   BuildingPreset @relation(fields: [presetId], references: [id], onDelete: Cascade)
+
+  @@unique([presetId, index])
+}
+
+model PresetRoom {
+  id         String            @id @default(cuid())
+  presetId   String
+  templateId String
+  floorIndex Int
+  sortOrder  Int               @default(0)
+  preset     BuildingPreset    @relation(fields: [presetId], references: [id], onDelete: Cascade)
+  template   RoomTemplate      @relation(fields: [templateId], references: [id], onDelete: Cascade)
+  assets     PresetRoomAsset[]
+
+  @@index([presetId])
+}
+
+model PresetRoomAsset {
+  presetRoomId String
+  assetId      String
+  quantity     Int
+  sortOrder    Int           @default(0)
+  presetRoom   PresetRoom    @relation(fields: [presetRoomId], references: [id], onDelete: Cascade)
+  asset        AssetTemplate @relation(fields: [assetId], references: [id], onDelete: Cascade)
+
+  @@id([presetRoomId, assetId])
+}

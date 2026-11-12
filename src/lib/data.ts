@@ -1,391 +1,48 @@
+import type { Prisma } from "@prisma/client";
+import { cacheLife, cacheTag } from "next/cache";
+
+import { prisma } from "./db";
 import type {
+  AssetTemplate,
+  BuildingPreset,
   CapitalProject,
   ContactDetail,
   Facility,
   PlannerCatalog,
   PlanningCapability,
+  RoomCategory,
+  RoomTemplate,
+  Zone,
 } from "./types";
-
-import { plannerCatalog } from "./planner-data";
 
 /**
  * Single content/data-access seam for JoeHealthPlan.
  *
- * Everything the pages read goes through the async functions at the bottom of
- * this file, which currently return in-memory fixtures. Swapping in a real
- * backend means rewriting those function bodies only — the pages, components
- * and types stay untouched.
+ * Pages and components read through the async functions in this file only.
+ * Facilities, capital projects and the planner catalog come from Postgres via
+ * Prisma; planning capabilities and contact details remain static copy until
+ * they get their own tables.
  *
- * Prisma + MongoDB:    `prisma.facility.findMany({ include: { zones, projects } })`.
- * Appwrite:            the `node-appwrite` SDK (`Databases.listDocuments`).
- *                      Prisma does not talk to Appwrite's database directly.
- *
- * Keep the functions async even when they return fixtures, and return fresh
- * copies so callers cannot mutate the fixtures (a real query would return new
- * objects on every call).
+ * Cached getters use `"use cache"` with an explicit lifetime and tag. Every
+ * value they return must be serializable, which is why the mappers convert
+ * Postgres `BIGINT` budgets and Prisma records into plain domain objects.
  */
 
-const facilities: Facility[] = [
-  {
-    slug: "northside-general-hospital",
-    name: "Northside General Hospital",
-    type: "hospital",
-    status: "expansion",
-    city: "Austin",
-    region: "TX",
-    openedYear: 1998,
-    siteAreaSqm: 62000,
-    grossFloorAreaSqm: 148500,
-    licensedBeds: 420,
-    occupancyPct: 87,
-    summary:
-      "The portfolio's flagship acute site, with a level II trauma center and roughly two thirds of all inpatient capacity.",
-    serviceLines: [
-      "Emergency",
-      "Cardiology",
-      "Oncology",
-      "Maternity",
-      "Orthopedics",
-    ],
-    zones: [
-      {
-        id: "ngh-ed",
-        name: "Emergency department",
-        function: "Acute care",
-        areaSqm: 8400,
-        utilizationPct: 92,
-        condition: "fair",
-      },
-      {
-        id: "ngh-ors",
-        name: "Operating rooms",
-        function: "Surgical",
-        areaSqm: 5600,
-        utilizationPct: 84,
-        condition: "good",
-      },
-      {
-        id: "ngh-cardiology",
-        name: "Cardiology ward",
-        function: "Inpatient",
-        areaSqm: 7200,
-        utilizationPct: 89,
-        condition: "good",
-      },
-      {
-        id: "ngh-cssd",
-        name: "Central sterile services",
-        function: "Support",
-        areaSqm: 1900,
-        utilizationPct: 78,
-        condition: "poor",
-      },
-      {
-        id: "ngh-outpatients",
-        name: "Outpatient clinics",
-        function: "Ambulatory",
-        areaSqm: 6300,
-        utilizationPct: 71,
-        condition: "good",
-      },
-    ],
-    projects: [
-      {
-        id: "prj-ngh-tower",
-        facilitySlug: "northside-general-hospital",
-        name: "North tower capacity expansion",
-        category: "new-build",
-        phase: "construction",
-        budgetCents: 14_800_000_000,
-        startYear: 2025,
-        targetYear: 2028,
-        progressPct: 42,
-        description:
-          "Six-storey inpatient tower adding 120 beds, four operating rooms and a new central sterile department.",
-      },
-      {
-        id: "prj-ngh-ed",
-        facilitySlug: "northside-general-hospital",
-        name: "Emergency department reconfiguration",
-        category: "renovation",
-        phase: "approvals",
-        budgetCents: 1_240_000_000,
-        startYear: 2026,
-        targetYear: 2027,
-        progressPct: 15,
-        description:
-          "Splits triage, majors and resus into separate front-of-house zones to cut ambulance offload times.",
-      },
-      {
-        id: "prj-ngh-chiller",
-        facilitySlug: "northside-general-hospital",
-        name: "Chiller plant replacement",
-        category: "infrastructure",
-        phase: "complete",
-        budgetCents: 680_000_000,
-        startYear: 2023,
-        targetYear: 2025,
-        progressPct: 100,
-        description:
-          "End-of-life chillers replaced with a duty-standby configuration and heat recovery for the east wing.",
-      },
-    ],
-  },
-  {
-    slug: "lakeview-surgical-center",
-    name: "Lakeview Surgical Center",
-    type: "surgical-center",
-    status: "operational",
-    city: "Round Rock",
-    region: "TX",
-    openedYear: 2012,
-    siteAreaSqm: 14200,
-    grossFloorAreaSqm: 21800,
-    licensedBeds: 12,
-    occupancyPct: 74,
-    summary:
-      "Eight operating rooms running at 74% utilization, with spare recovery capacity to absorb referrals from the main hospital.",
-    serviceLines: [
-      "Day surgery",
-      "Endoscopy",
-      "Pain management",
-      "Ophthalmology",
-    ],
-    zones: [
-      {
-        id: "lsc-ors",
-        name: "Operating rooms",
-        function: "Surgical",
-        areaSqm: 3100,
-        utilizationPct: 76,
-        condition: "good",
-      },
-      {
-        id: "lsc-recovery",
-        name: "Recovery bay",
-        function: "Post-anesthesia",
-        areaSqm: 1200,
-        utilizationPct: 68,
-        condition: "good",
-      },
-      {
-        id: "lsc-endoscopy",
-        name: "Endoscopy suite",
-        function: "Diagnostic",
-        areaSqm: 1450,
-        utilizationPct: 72,
-        condition: "good",
-      },
-      {
-        id: "lsc-cssd",
-        name: "Sterile processing",
-        function: "Support",
-        areaSqm: 850,
-        utilizationPct: 81,
-        condition: "fair",
-      },
-    ],
-    projects: [
-      {
-        id: "prj-lsc-endoscopy",
-        facilitySlug: "lakeview-surgical-center",
-        name: "Fourth endoscopy room fit-out",
-        category: "expansion",
-        phase: "design",
-        budgetCents: 320_000_000,
-        startYear: 2026,
-        targetYear: 2027,
-        progressPct: 20,
-        description:
-          "Converts adjacent storage into a fourth procedure room, lifting endoscopy throughput by an estimated 26%.",
-      },
-      {
-        id: "prj-lsc-hvac",
-        facilitySlug: "lakeview-surgical-center",
-        name: "Air handling and HVAC upgrade",
-        category: "infrastructure",
-        phase: "commissioning",
-        budgetCents: 245_000_000,
-        startYear: 2024,
-        targetYear: 2026,
-        progressPct: 88,
-        description:
-          "Operating room air changes brought up to current standards, with monitored pressure differentials per room.",
-      },
-    ],
-  },
-  {
-    slug: "cedar-park-outpatient-clinic",
-    name: "Cedar Park Outpatient Clinic",
-    type: "outpatient-clinic",
-    status: "under-construction",
-    city: "Cedar Park",
-    region: "TX",
-    openedYear: 2019,
-    siteAreaSqm: 6400,
-    grossFloorAreaSqm: 9600,
-    licensedBeds: null,
-    occupancyPct: 81,
-    summary:
-      "Community clinic at 81% utilization, with an annex under construction that will add 22 exam rooms and a minor procedures suite.",
-    serviceLines: [
-      "Primary care",
-      "Pediatrics",
-      "Physical therapy",
-      "Phlebotomy",
-    ],
-    zones: [
-      {
-        id: "cpoc-exam",
-        name: "Exam rooms",
-        function: "Ambulatory",
-        areaSqm: 2100,
-        utilizationPct: 88,
-        condition: "good",
-      },
-      {
-        id: "cpoc-therapy",
-        name: "Physical therapy gym",
-        function: "Rehabilitation",
-        areaSqm: 780,
-        utilizationPct: 74,
-        condition: "good",
-      },
-      {
-        id: "cpoc-phlebotomy",
-        name: "Phlebotomy and sample handling",
-        function: "Diagnostic",
-        areaSqm: 320,
-        utilizationPct: 83,
-        condition: "fair",
-      },
-    ],
-    projects: [
-      {
-        id: "prj-cpoc-annex",
-        facilitySlug: "cedar-park-outpatient-clinic",
-        name: "Clinic annex: 22 exam rooms",
-        category: "new-build",
-        phase: "construction",
-        budgetCents: 975_000_000,
-        startYear: 2025,
-        targetYear: 2027,
-        progressPct: 55,
-        description:
-          "Two-storey annex on the eastern parking lot, plus a minor procedures suite and 40 additional parking spaces.",
-      },
-      {
-        id: "prj-cpoc-signage",
-        facilitySlug: "cedar-park-outpatient-clinic",
-        name: "Signage and wayfinding refresh",
-        category: "renovation",
-        phase: "approvals",
-        budgetCents: 48_000_000,
-        startYear: 2026,
-        targetYear: 2026,
-        progressPct: 10,
-        description:
-          "Standardized wayfinding across both wings to match the annex layout and reduce front-desk escort time.",
-      },
-    ],
-  },
-  {
-    slug: "riverbend-diagnostic-center",
-    name: "Riverbend Diagnostic Center",
-    type: "diagnostic-center",
-    status: "planning",
-    city: "Austin",
-    region: "TX",
-    openedYear: 2005,
-    siteAreaSqm: 9800,
-    grossFloorAreaSqm: 16200,
-    licensedBeds: null,
-    occupancyPct: 68,
-    summary:
-      "Imaging-heavy site where two scanners are past their planned lifecycle, and the anchor of a proposed replacement build.",
-    serviceLines: [
-      "MRI and CT",
-      "Ultrasound",
-      "Nuclear medicine",
-      "Cardiac diagnostics",
-    ],
-    zones: [
-      {
-        id: "rbdc-mri",
-        name: "MRI suite",
-        function: "Diagnostic",
-        areaSqm: 640,
-        utilizationPct: 79,
-        condition: "fair",
-      },
-      {
-        id: "rbdc-ct",
-        name: "CT and X-ray",
-        function: "Diagnostic",
-        areaSqm: 890,
-        utilizationPct: 83,
-        condition: "good",
-      },
-      {
-        id: "rbdc-nuclear",
-        name: "Nuclear medicine",
-        function: "Diagnostic",
-        areaSqm: 410,
-        utilizationPct: 62,
-        condition: "poor",
-      },
-      {
-        id: "rbdc-admin",
-        name: "Reporting and administration",
-        function: "Administration",
-        areaSqm: 520,
-        utilizationPct: 58,
-        condition: "good",
-      },
-    ],
-    projects: [
-      {
-        id: "prj-rbdc-replacement",
-        facilitySlug: "riverbend-diagnostic-center",
-        name: "Replacement diagnostic center",
-        category: "new-build",
-        phase: "concept",
-        budgetCents: 8_600_000_000,
-        startYear: 2027,
-        targetYear: 2031,
-        progressPct: 5,
-        description:
-          "Concept option to rebuild on the adjacent plot rather than refurbish, trading capital cost for capacity and lifecycle.",
-      },
-      {
-        id: "prj-rbdc-mri",
-        facilitySlug: "riverbend-diagnostic-center",
-        name: "MRI 1 replacement and shielding",
-        category: "equipment",
-        phase: "approvals",
-        budgetCents: 490_000_000,
-        startYear: 2026,
-        targetYear: 2027,
-        progressPct: 12,
-        description:
-          "Interim scanner replacement to hold imaging capacity until the replacement build is decided.",
-      },
-      {
-        id: "prj-rbdc-nuclear",
-        facilitySlug: "riverbend-diagnostic-center",
-        name: "Nuclear medicine suite refurbishment",
-        category: "renovation",
-        phase: "complete",
-        budgetCents: 215_000_000,
-        startYear: 2023,
-        targetYear: 2024,
-        progressPct: 100,
-        description:
-          "Hot lab and scanning room refurbished to current radiation protection requirements.",
-      },
-    ],
-  },
-];
+type FacilityRecord = Prisma.FacilityGetPayload<{
+  include: { zones: true; projects: true };
+}>;
+type ProjectRecord = FacilityRecord["projects"][number];
+type ZoneRecord = FacilityRecord["zones"][number];
+type AssetRecord = Prisma.AssetTemplateGetPayload<Record<string, never>>;
+type RoomRecord = Prisma.RoomTemplateGetPayload<{
+  include: { recommendedSetup: true };
+}>;
+type PresetRecord = Prisma.BuildingPresetGetPayload<{
+  include: {
+    floors: true;
+    rooms: { include: { assets: true } };
+  };
+}>;
 
 const planningCapabilities: PlanningCapability[] = [
   {
@@ -439,18 +96,150 @@ const contactDetails: ContactDetail[] = [
   { icon: "pin", label: "Office", value: "1201 Rio Grande St, Austin, TX" },
 ];
 
+function toZone(row: ZoneRecord): Zone {
+  return {
+    id: row.id,
+    name: row.name,
+    function: row.function,
+    areaSqm: row.areaSqm,
+    utilizationPct: row.utilizationPct,
+    condition: row.condition as Zone["condition"],
+  };
+}
+
+function toCapitalProject(row: ProjectRecord): CapitalProject {
+  return {
+    id: row.id,
+    facilitySlug: row.facilitySlug,
+    name: row.name,
+    category: row.category as CapitalProject["category"],
+    phase: row.phase as CapitalProject["phase"],
+    // BIGINT in Postgres; safely below Number.MAX_SAFE_INTEGER.
+    budgetCents: Number(row.budgetCents),
+    startYear: row.startYear,
+    targetYear: row.targetYear,
+    progressPct: row.progressPct,
+    description: row.description,
+  };
+}
+
+function toFacility(row: FacilityRecord): Facility {
+  return {
+    slug: row.slug,
+    name: row.name,
+    type: row.type as Facility["type"],
+    status: row.status as Facility["status"],
+    city: row.city,
+    region: row.region,
+    openedYear: row.openedYear,
+    siteAreaSqm: row.siteAreaSqm,
+    grossFloorAreaSqm: row.grossFloorAreaSqm,
+    licensedBeds: row.licensedBeds,
+    occupancyPct: row.occupancyPct,
+    summary: row.summary,
+    serviceLines: row.serviceLines,
+    zones: row.zones.map(toZone),
+    projects: row.projects.map(toCapitalProject),
+  };
+}
+
+function toAsset(row: AssetRecord): AssetTemplate {
+  return {
+    id: row.id,
+    name: row.name,
+    category: row.category as AssetTemplate["category"],
+    description: row.description,
+    unitCostCents: row.unitCostCents,
+    utilities: row.utilities as AssetTemplate["utilities"],
+    roomCategories: row.appliesToAllRooms
+      ? "all"
+      : (row.roomCategories as RoomCategory[]),
+    installation: row.installation as AssetTemplate["installation"],
+  };
+}
+
+function toRoom(row: RoomRecord): RoomTemplate {
+  return {
+    id: row.id,
+    name: row.name,
+    category: row.category as RoomTemplate["category"],
+    description: row.description,
+    defaultAreaSqm: row.defaultAreaSqm,
+    patientBeds: row.patientBeds,
+    utilities: row.utilities as RoomTemplate["utilities"],
+    recommendedSetup: row.recommendedSetup.map((asset) => ({
+      assetId: asset.assetId,
+      quantity: asset.quantity,
+    })),
+  };
+}
+
+function toPreset(row: PresetRecord): BuildingPreset {
+  return {
+    id: row.id,
+    name: row.name,
+    description: row.description,
+    floors: row.floors.map((floor) => floor.name),
+    rooms: row.rooms.map((room) => ({
+      templateId: room.templateId,
+      floorIndex: room.floorIndex,
+      ...(room.assets.length
+        ? {
+            assets: room.assets.map((asset) => ({
+              assetId: asset.assetId,
+              quantity: asset.quantity,
+            })),
+          }
+        : {}),
+    })),
+  };
+}
+
+const facilityInclude = {
+  zones: { orderBy: { sortOrder: "asc" } },
+  projects: { orderBy: { sortOrder: "asc" } },
+} satisfies Prisma.FacilityInclude;
+
 export async function getFacilities(): Promise<Facility[]> {
-  return structuredClone(facilities);
+  "use cache";
+  cacheLife("hours");
+  cacheTag("facilities");
+
+  const rows = await prisma.facility.findMany({
+    orderBy: { sortOrder: "asc" },
+    include: facilityInclude,
+  });
+
+  return rows.map(toFacility);
 }
 
 export async function getFacilityBySlug(slug: string): Promise<Facility | null> {
-  const facility = facilities.find((candidate) => candidate.slug === slug);
-  return facility ? structuredClone(facility) : null;
+  "use cache";
+  cacheLife("hours");
+  cacheTag("facilities", `facility-${slug}`);
+
+  const row = await prisma.facility.findUnique({
+    where: { slug },
+    include: facilityInclude,
+  });
+
+  return row ? toFacility(row) : null;
 }
 
 /** Every capital project across the portfolio, flattened. */
 export async function getCapitalProjects(): Promise<CapitalProject[]> {
-  return structuredClone(facilities.flatMap((facility) => facility.projects));
+  "use cache";
+  cacheLife("hours");
+  cacheTag("facilities", "projects");
+
+  const rows = await prisma.facility.findMany({
+    orderBy: { sortOrder: "asc" },
+    select: {
+      projects: { orderBy: { sortOrder: "asc" } },
+    },
+  });
+
+  return rows.flatMap((facility) => facility.projects.map(toCapitalProject));
 }
 
 export async function getPlanningCapabilities(): Promise<PlanningCapability[]> {
@@ -462,10 +251,40 @@ export async function getContactDetails(): Promise<ContactDetail[]> {
 }
 
 /**
- * Catalog for the virtual building planner. The fixtures live in
- * `src/lib/planner-data/`; replacing this body with an API or database query is
- * the only change needed when the catalog moves to the backend.
+ * Catalog for the virtual building planner.
+ *
+ * Assets, room templates and example buildings live in separate tables. The
+ * mapper rebuilds the `PlannerCatalog` shape, including the `assets` override
+ * that is only present on some preset rooms.
  */
 export async function getPlannerCatalog(): Promise<PlannerCatalog> {
-  return structuredClone(plannerCatalog);
+  "use cache";
+  cacheLife("hours");
+  cacheTag("planner-catalog");
+
+  const [assetRows, roomRows, presetRows] = await Promise.all([
+    prisma.assetTemplate.findMany({ orderBy: { sortOrder: "asc" } }),
+    prisma.roomTemplate.findMany({
+      orderBy: { sortOrder: "asc" },
+      include: {
+        recommendedSetup: { orderBy: { sortOrder: "asc" } },
+      },
+    }),
+    prisma.buildingPreset.findMany({
+      orderBy: { sortOrder: "asc" },
+      include: {
+        floors: { orderBy: { index: "asc" } },
+        rooms: {
+          orderBy: { sortOrder: "asc" },
+          include: { assets: { orderBy: { sortOrder: "asc" } } },
+        },
+      },
+    }),
+  ]);
+
+  return {
+    assetTemplates: assetRows.map(toAsset),
+    roomTemplates: roomRows.map(toRoom),
+    buildingPresets: presetRows.map(toPreset),
+  };
 }

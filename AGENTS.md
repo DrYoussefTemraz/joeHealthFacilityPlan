@@ -27,24 +27,38 @@ tokens and inline SVG icons.
 | `npm run lint`      | ESLint                           |
 | `npx tsc --noEmit`  | Type-check without emitting      |
 | `npm run build`     | Production build / prerender check |
+| `npm run db:migrate`| Create and apply a Prisma migration |
+| `npm run db:seed`   | Re-seed reference data           |
+| `npm run db:studio` | Open Prisma Studio               |
 
 Run lint, type-check and build before considering a change finished.
 
 ## Data layer
 
-- Every page reads through the async accessors at the bottom of
-  `src/lib/data.ts`: `getFacilities`, `getFacilityBySlug`, `getCapitalProjects`,
+- Every page reads through the async accessors in `src/lib/data.ts`:
+  `getFacilities`, `getFacilityBySlug`, `getCapitalProjects`,
   `getPlanningCapabilities`, `getContactDetails` and `getPlannerCatalog`.
-- Pages and components must not import fixtures directly. Replace a function
-  body in `src/lib/data.ts` when a backend is added; keep the return types.
+- Facilities, capital projects and the planner catalog come from Postgres
+  (Neon) through Prisma (`src/lib/db.ts`). Capabilities and contact details are
+  still static copy.
+- Pages and components must not import fixtures or Prisma directly. Extend the
+  accessors in `src/lib/data.ts` and keep the return types in
+  `src/lib/types.ts` stable.
+- The database-backed getters use `"use cache"` with `cacheLife` and
+  `cacheTag`. Tags are `facilities`, `facility-<slug>`, `projects` and
+  `planner-catalog`; invalidate them after mutations.
+- Cached return values must be serializable. Mappers convert Prisma records
+  to plain domain objects and Postgres `BIGINT` budgets to `number`.
 - Money is stored in **cents**; areas are stored in **square meters**.
-- The planner catalog lives in `src/lib/planner-data/`:
+- The planner catalog seed data lives in `src/lib/planner-data/`:
   - `rooms.ts` — room templates grouped by the 15 room categories
   - `setups.ts` — reusable recommended-setup lists and the `q()` helper
   - `devices.ts`, `equipment.ts`, `medical-furniture.ts`,
     `non-medical-furniture.ts`, `machines.ts` — the five asset groups
   - `presets.ts` — example buildings
   - `index.ts` — combines everything into `plannerCatalog`
+- Facility fixtures live in `src/lib/fixtures/facilities.ts` and are seed input
+  only. `prisma/seed.ts` is idempotent and replaces reference data.
 - Pure planner logic belongs in `src/lib/planner.ts` (compatibility, totals,
   bill of materials, category ordering). Keep UI components free of duplicated
   calculation logic.
@@ -79,7 +93,8 @@ Run lint, type-check and build before considering a change finished.
    beds, utilities and `recommendedSetup`.
 4. Add it to a preset in `presets.ts` only if the example building should show
    it.
-5. Run the ID validation, then lint, type-check and build.
+5. Run `npm run db:seed` to refresh the catalog tables, then lint, type-check and
+   build.
 
 ## Next.js 16 constraints in this repo
 
@@ -95,6 +110,11 @@ Run lint, type-check and build before considering a change finished.
 - `generateStaticParams` must return at least one param.
 - `"use client"` is declared at the interactive boundary
   (`building-planner.tsx`); components imported by it inherit the client graph.
+- Cached getters (`"use cache"`) must return serializable values. Do not return
+  Prisma records, `BigInt`, `Date`, class instances or functions; map to plain
+  objects first.
+- `npm run build` needs a reachable, seeded database because the data getters
+  are prerendered.
 - Read the relevant guide in `node_modules/next/dist/docs/` before changing
   routing, caching or data-fetching behaviour.
 

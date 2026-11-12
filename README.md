@@ -79,11 +79,14 @@ src/
       bill-of-materials.tsx       Aggregated quantity and cost table
   lib/
     types.ts                      Domain types (Facility, Zone, CapitalProject, planner, ...)
-    data.ts                       The data-access seam — start here
+    data.ts                       Cached read layer — the data-access seam
+    db.ts                         Prisma client singleton
+    fixtures/
+      facilities.ts               Portfolio seed data (not read by pages)
     format.ts                     Currency, area and percent formatting
     planner.ts                    Compatibility, totals and bill-of-materials helpers
     planner-data/
-      index.ts                    Combines room, asset and preset fixtures
+      index.ts                    Combines room, asset and preset seed data
       rooms.ts                    Room templates and recommended-setup references
       setups.ts                   Reusable recommended-setup lists and the q() helper
       devices.ts                  Point-of-care devices
@@ -92,6 +95,10 @@ src/
       non-medical-furniture.ts    Office, waiting, meeting and staff furniture
       machines.ts                 Plant, IT, laundry and back-of-house machinery
       presets.ts                  Example buildings
+prisma/
+  schema.prisma                   Postgres schema (facilities, projects, catalog)
+  seed.ts                         Idempotent seed from fixtures + planner data
+  migrations/                     Applied SQL migrations
 ```
 
 ## Domain model
@@ -118,100 +125,54 @@ center) with ten capital projects between them. The planner catalog contains
 
 ## The data layer
 
-Every page reads through the async functions at the bottom of
-`src/lib/data.ts`: `getFacilities`, `getFacilityBySlug`, `getCapitalProjects`,
-`getPlanningCapabilities`, `getContactDetails` and `getPlannerCatalog`. Today
-they return in-memory fixtures. The planner fixtures are split by concern in
-`src/lib/planner-data/` and combined into `plannerCatalog`.
+Every page reads through the async functions in `src/lib/data.ts`:
+`getFacilities`, `getFacilityBySlug`, `getCapitalProjects`,
+`getPlanningCapabilities`, `getContactDetails` and `getPlannerCatalog`.
 
-To use a real backend, rewrite those function bodies. The pages, components and
-types do not need to change. For the planner, keep the `PlannerCatalog` return
-shape so the UI and pure calculations in `src/lib/planner.ts` continue to work.
+Facilities, capital projects and the planner catalog are stored in Postgres
+(Neon) and read through Prisma. Planning capabilities and contact details are
+still static copy. Pages and components never import fixtures or Prisma
+directly; keep the return types in `src/lib/types.ts` unchanged when the
+queries evolve.
 
-**Prisma + MongoDB**
+The database-backed getters are wrapped in `"use cache"` with `cacheLife` and
+`cacheTag`, so prerendered pages can include the data without a request-time
+query. Tags are `facilities`, `facility-<slug>`, `projects` and
+`planner-catalog`. The mappers return plain objects because cached values must
+be serializable; `CapitalProject.budgetCents` is a Postgres `BIGINT` converted
+to a number.
 
-A schema that matches the current types:
+### Local database setup
 
-```prisma
-datasource db {
-  provider = "mongodb"
-  url      = env("DATABASE_URL")
-}
+1. Copy `.env.example` to `.env` and paste the Neon **direct** (non-pooler)
+   connection string into `DATABASE_URL`. Keep the pooled string for the
+   deployed runtime, but migrations and seeds use the direct one. `.env` is
+   gitignored; never commit real credentials.
+2. Apply the migrations and seed the reference data:
 
-model Facility {
-  id                String   @id @default(auto()) @map("_id") @db.ObjectId
-  slug              String   @unique
-  name              String
-  type              String
-  status            String
-  city              String
-  region            String
-  openedYear        Int
-  siteAreaSqm       Int
-  grossFloorAreaSqm Int
-  licensedBeds      Int?
-  occupancyPct      Int
-  summary           String
-  serviceLines      String[]
-  zones             Zone[]
-  projects          CapitalProject[]
-}
+   ```bash
+   npx prisma migrate dev
+   npm run db:seed
+   ```
 
-model Zone {
-  id             String   @id @default(auto()) @map("_id") @db.ObjectId
-  name           String
-  function       String
-  areaSqm        Int
-  utilizationPct Int
-  condition      String
-  facilityId     String   @db.ObjectId
-  facility       Facility @relation(fields: [facilityId], references: [id])
-}
+3. `npm run db:studio` opens Prisma Studio if you want to inspect rows.
 
-model CapitalProject {
-  id           String   @id @default(auto()) @map("_id") @db.ObjectId
-  name         String
-  category     String
-  phase        String
-  budgetCents  BigInt
-  startYear    Int
-  targetYear   Int
-  progressPct  Int
-  description  String
-  facilityId   String   @db.ObjectId
-  facility     Facility @relation(fields: [facilityId], references: [id])
-}
-```
+The seed is idempotent. It replaces reference data (the catalog and each
+facility's zones and projects), so re-running it is safe while no user-owned
+rows reference those records.
 
-Then:
+### Schema notes
 
-```ts
-export async function getFacilities(): Promise<Facility[]> {
-  return prisma.facility.findMany({ include: { zones: true, projects: true } });
-}
-```
+- Facility slugs are the primary key; zones and projects reference them.
+- Enum-like fields are strings matching the unions in `src/lib/types.ts`.
+  Validation stays in TypeScript for now.
+- Project budgets are `BIGINT` because some portfolio values exceed the
+  32-bit `integer` range.
+- Catalog ordering is stored explicitly (`sortOrder`) so recommended setups,
+  rooms and presets come back in the same order as the fixtures.
+- `"use cache"` cannot serialize Prisma records, `BigInt` or `Date`; the
+  mappers in `src/lib/data.ts` convert to domain shapes first.
 
-The MongoDB provider uses `prisma db push` rather than `migrate dev`, and needs
-a replica-set URI (Atlas, or a local replica set). `BigInt` does not serialize
-to JSON, so either keep budgets as `Int` or convert with `Number()` before
-returning.
-
-**Appwrite**
-
-```ts
-import { Client, Databases } from "node-appwrite";
-
-export async function getFacilities(): Promise<Facility[]> {
-  const { documents } = await databases.listDocuments(DB_ID, FACILITIES_COLLECTION_ID);
-  return documents as unknown as Facility[];
-}
-```
-
-Note that Prisma does not talk to Appwrite's database directly — Appwrite has
-its own SDK. Pick one or the other rather than layering them.
-
-Copy `.env.example` to `.env.local` when you wire either up; `.env.local` is
-gitignored, and `.env.example` is committed as documentation of the variables.
 
 ## Virtual building planner
 
@@ -282,14 +243,13 @@ worth knowing before you add code:
 
 ## Suggested next steps
 
-1. Add `app/api/facilities/route.ts` if a client-rendered surface needs the data.
-2. Wire the contact form to a Server Action and persist submissions.
-3. Add create/edit flows for zones and projects — these need `"use cache"` plus
-   `cacheTag`/`updateTag` so lists refresh after a mutation.
-4. Track history per project (phase transitions, budget revisions) instead of
+1. Add Server Actions for facilities, zones and projects, and invalidate the
+   matching `cacheTag`s after each mutation.
+2. Persist `BuildingPlan` records in Postgres (a `Plan` table keyed by user)
+   instead of leaving them in one browser's localStorage.
+3. Wire the contact form to a Server Action and persist submissions.
+4. Add auth and per-site permissions before exposing write endpoints.
+5. Track history per project (phase transitions, budget revisions) instead of
    the single `progressPct` snapshot.
-5. Add auth and per-site permissions once there is a backend to enforce them.
-6. Move `getPlannerCatalog()` and saved `BuildingPlan` records behind an API so
-   plans can be shared between users instead of living only in one browser.
-7. Add plan versioning and comments for design reviews, plus export to CSV or
+6. Add plan versioning and comments for design reviews, plus export to CSV or
    PDF for the bill of materials.
