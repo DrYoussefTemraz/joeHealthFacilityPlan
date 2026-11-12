@@ -49,26 +49,6 @@ export default async function ContactPage() {
               </li>
             ))}
           </ul>
-
-          <div className="rounded-2xl border border-dashed border-border bg-muted p-6">
-            <h2 className="font-semibold">For developers</h2>
-            <p className="mt-3 text-sm leading-6 text-muted-foreground">
-              The form on the left is a client component with local state only.
-              To make it real, add a{" "}
-              <code className="rounded bg-background px-1.5 py-0.5 font-mono text-xs">
-                Server Action
-              </code>{" "}
-              or an{" "}
-              <code className="rounded bg-background px-1.5 py-0.5 font-mono text-xs">
-                app/api/contact/route.ts
-              </code>{" "}
-              handler and persist submissions through{" "}
-              <code className="rounded bg-background px-1.5 py-0.5 font-mono text-xs">
-                src/lib/data.ts
-              </code>
-              .
-            </p>
-          </div>
         </div>
       </div>
     </div>

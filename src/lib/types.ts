@@ -154,6 +154,9 @@ export type AssetCategory =
   | "non-medical-furniture"
   | "machine";
 
+/** Confidence attached to the preliminary USD unit-cost estimates. */
+export type PriceConfidence = "low" | "medium" | "high";
+
 /** Services a room or item can require from the building. */
 export type MedicalUtility =
   | "oxygen"
@@ -205,6 +208,15 @@ export interface AssetTemplate {
   description: string;
   /** Money is stored in cents, consistent with the rest of the site. */
   unitCostCents: number;
+  /** Preliminary price metadata; absent for legacy static fixtures. */
+  priceConfidence?: PriceConfidence;
+  priceSourceType?: string;
+  priceSourceTitle?: string;
+  priceSourcePublisher?: string;
+  priceSourceUrl?: string;
+  /** ISO date (YYYY-MM-DD) the estimate or source was checked. */
+  priceCheckedAt?: string;
+  priceBasis?: string;
   utilities: MedicalUtility[];
   /** `"all"` marks items such as waste bins that fit any room. */
   roomCategories: RoomCategory[] | "all";
@@ -260,4 +272,27 @@ export interface BuildingPlan {
   name: string;
   floors: Floor[];
   rooms: PlacedRoom[];
+}
+
+/** Topics offered by the "Request a review" contact form. */
+export type ReviewRequestTopic =
+  | "new-facility"
+  | "expansion"
+  | "capital"
+  | "approvals"
+  | "other";
+
+export interface ReviewRequestInput {
+  name: string;
+  email: string;
+  facility: string | null;
+  topic: ReviewRequestTopic;
+  message: string;
+}
+
+/** A saved contact submission. `createdAt` is an ISO string for serialization. */
+export interface ReviewRequest extends ReviewRequestInput {
+  id: string;
+  status: "new" | "in-review" | "closed";
+  createdAt: string;
 }

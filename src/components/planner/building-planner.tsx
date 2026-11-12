@@ -368,8 +368,8 @@ export function BuildingPlanner({ catalog }: BuildingPlannerProps) {
           {hydrated
             ? "Autosaved to this browser."
             : "Loading any saved building…"}{" "}
-          Illustrative mock catalog, costs and utilities — not for procurement or
-          clinical guidance.
+          Illustrative catalog with preliminary cost estimates — not for
+          procurement or clinical guidance.
         </p>
       </div>
 

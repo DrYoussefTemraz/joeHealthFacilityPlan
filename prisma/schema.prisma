@@ -67,18 +67,27 @@ model CapitalProject {
 }
 
 model AssetTemplate {
-  id                String             @id
-  name              String
-  category          String
-  description       String
-  unitCostCents     Int
-  utilities         String[]
-  roomCategories    String[]
-  appliesToAllRooms Boolean            @default(false)
-  installation      String
-  sortOrder         Int                @default(0)
-  recommendedIn     RecommendedAsset[]
-  presetRoomAssets  PresetRoomAsset[]
+  id                   String             @id
+  name                 String
+  category             String
+  description          String
+  unitCostCents        Int
+  // Preliminary pricing overlay. The catalogue stores USD; the source EGP
+  // estimates stay in `prisma/data/catalog-assets-sources.csv`.
+  priceConfidence      String             @default("low")
+  priceSourceType      String?
+  priceSourceTitle     String?
+  priceSourcePublisher String?
+  priceSourceUrl       String?
+  priceCheckedAt       DateTime?
+  priceBasis           String?
+  utilities            String[]
+  roomCategories       String[]
+  appliesToAllRooms    Boolean            @default(false)
+  installation         String
+  sortOrder            Int                @default(0)
+  recommendedIn        RecommendedAsset[]
+  presetRoomAssets     PresetRoomAsset[]
 
   @@index([category])
 }
@@ -150,4 +159,17 @@ model PresetRoomAsset {
   asset        AssetTemplate @relation(fields: [assetId], references: [id], onDelete: Cascade)
 
   @@id([presetRoomId, assetId])
+}
+
+model ReviewRequest {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  facility  String?
+  topic     String
+  message   String
+  status    String   @default("new")
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
 }

@@ -20,7 +20,8 @@ export function BillOfMaterials({ rows }: BillOfMaterialsProps) {
             Bill of materials
           </h2>
           <p className="mt-1 text-sm text-muted-foreground">
-            Every placed item, aggregated across the building.
+            Every placed item, aggregated across the building. Unit costs are
+            preliminary planning estimates, not procurement quotes.
           </p>
         </div>
         <p className="text-sm text-muted-foreground">

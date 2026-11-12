@@ -10,6 +10,7 @@ import type {
   Facility,
   PlannerCatalog,
   PlanningCapability,
+  ReviewRequestInput,
   RoomCategory,
   RoomTemplate,
   Zone,
@@ -150,6 +151,15 @@ function toAsset(row: AssetRecord): AssetTemplate {
     category: row.category as AssetTemplate["category"],
     description: row.description,
     unitCostCents: row.unitCostCents,
+    priceConfidence: row.priceConfidence as AssetTemplate["priceConfidence"],
+    priceSourceType: row.priceSourceType ?? undefined,
+    priceSourceTitle: row.priceSourceTitle ?? undefined,
+    priceSourcePublisher: row.priceSourcePublisher ?? undefined,
+    priceSourceUrl: row.priceSourceUrl ?? undefined,
+    priceCheckedAt: row.priceCheckedAt
+      ? row.priceCheckedAt.toISOString().slice(0, 10)
+      : undefined,
+    priceBasis: row.priceBasis ?? undefined,
     utilities: row.utilities as AssetTemplate["utilities"],
     roomCategories: row.appliesToAllRooms
       ? "all"
@@ -248,6 +258,27 @@ export async function getPlanningCapabilities(): Promise<PlanningCapability[]> {
 
 export async function getContactDetails(): Promise<ContactDetail[]> {
   return structuredClone(contactDetails);
+}
+
+/**
+ * Persist a contact / review request.
+ *
+ * This is a mutation, so it is intentionally not wrapped in `"use cache"`.
+ * Validation happens in the Server Action before this function is called.
+ */
+export async function createReviewRequest(
+  input: ReviewRequestInput,
+): Promise<{ id: string }> {
+  return prisma.reviewRequest.create({
+    data: {
+      name: input.name,
+      email: input.email,
+      facility: input.facility,
+      topic: input.topic,
+      message: input.message,
+    },
+    select: { id: true },
+  });
 }
 
 /**

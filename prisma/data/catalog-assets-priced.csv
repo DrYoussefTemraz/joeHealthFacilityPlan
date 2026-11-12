@@ -1,0 +1,249 @@
+id,name,planner_category,room_categories,installation,unit_cost_usd,description
+ecg-machine,12-lead ECG machine,device,inpatient|critical-care|emergency-trauma|ambulatory|diagnostic-imaging,mobile,4500.00,Diagnostic resting ECG with network export to the EHR.
+aed,Automated external defibrillator,device,all,wall-mounted,1800.00,Public-access AED with adult and paediatric pads.
+barcode-medication-scanner,Barcode medication scanner,device,inpatient|critical-care|emergency-trauma|surgical-procedural|pharmacy,mobile,650.00,Handheld scanner for closed-loop medication administration.
+bladder-scanner,Bladder scanner,device,inpatient|critical-care|emergency-trauma|rehabilitation|ambulatory,mobile,12000.00,Non-invasive bladder-volume scanner for urinary retention checks.
+glucometer,Blood glucose meter,device,inpatient|critical-care|emergency-trauma|maternal-pediatric|renal-infusion|ambulatory|laboratory-pathology,mobile,120.00,Point-of-care glucose meter with connectivity to the EHR.
+blood-pressure-monitor,Blood pressure monitor,device,inpatient|critical-care|maternal-pediatric|emergency-trauma|ambulatory|rehabilitation,mobile,250.00,Automated NIBP monitor with adult and paediatric cuffs.
+capnography-monitor,Capnography monitor,device,critical-care|surgical-procedural|emergency-trauma,mobile,8500.00,End-tidal CO2 monitoring for sedation and airway management.
+cardiac-output-monitor,Cardiac output monitor,device,critical-care|surgical-procedural,mobile,32000.00,Haemodynamic monitor for high-acuity and perioperative care.
+contrast-injector,Contrast injector,device,diagnostic-imaging|surgical-procedural,fixed,45000.00,Programmable contrast and saline injector for imaging studies.
+defibrillator,Defibrillator / monitor,device,inpatient|critical-care|emergency-trauma|surgical-procedural|diagnostic-imaging|ambulatory,mobile,6500.00,"Manual defibrillator with pacing, AED mode and code-event capture."
+bis-monitor,Depth-of-anaesthesia monitor,device,surgical-procedural|critical-care,mobile,18000.00,BIS or entropy monitor for anaesthetised patients.
+dermatoscope,Dermatoscope,device,ambulatory,mobile,3500.00,Polarised skin-imaging scope with image capture.
+feeding-pump,Enteral feeding pump,device,inpatient|critical-care|maternal-pediatric,mobile,950.00,Enteral nutrition pump with occlusion and low-volume alarms.
+fall-detection-sensor,Fall detection sensor,device,inpatient|critical-care|maternal-pediatric|rehabilitation,wall-mounted,450.00,Bed-exit and room-movement sensor linked to nurse call.
+fetal-monitor,Fetal monitor,device,maternal-pediatric,mobile,6500.00,External fetal heart-rate and contraction monitoring.
+handheld-doppler,Handheld Doppler,device,maternal-pediatric|critical-care|emergency-trauma|ambulatory,mobile,550.00,Vascular and fetal Doppler with interchangeable probes.
+handheld-ultrasound,Handheld ultrasound,device,emergency-trauma|critical-care|maternal-pediatric|ambulatory,mobile,9000.00,Pocket ultrasound probe paired with a clinical tablet.
+infant-scale,Infant scale,device,maternal-pediatric,fixed,400.00,Digital infant scale with length measurement.
+infusion-pump,Infusion pump,device,inpatient|critical-care|maternal-pediatric|surgical-procedural|emergency-trauma|renal-infusion|ambulatory,mobile,1800.00,Volumetric pump with drug library and wireless updates.
+icp-monitor,Intracranial pressure monitor,device,critical-care|emergency-trauma,mobile,18000.00,ICP and cerebral oxygenation monitoring for neurocritical care.
+nerve-stimulator,Nerve stimulator,device,surgical-procedural|rehabilitation,mobile,6000.00,Peripheral nerve locator for regional anaesthesia and rehab.
+nurse-call-pillow-speaker,Nurse call pillow speaker,device,inpatient|critical-care|maternal-pediatric|rehabilitation,wall-mounted,180.00,"Bedside call, light and intercom unit for patient rooms."
+otoscope-ophthalmoscope,Otoscope and ophthalmoscope set,device,ambulatory|maternal-pediatric|emergency-trauma,wall-mounted,950.00,"Wall-mounted diagnostic set for ear, nose and eye examinations."
+oxygen-flowmeter,Oxygen flowmeter,device,inpatient|critical-care|emergency-trauma|surgical-procedural|maternal-pediatric|renal-infusion,wall-mounted,85.00,Thorpe-tube flowmeter for wall or cylinder oxygen.
+pca-pump,PCA pump,device,inpatient|surgical-procedural|maternal-pediatric,mobile,3500.00,Patient-controlled analgesia pump with lockout and audit log.
+pacemaker-programmer,Pacemaker programmer,device,critical-care|diagnostic-imaging|ambulatory,mobile,35000.00,Device programmer and interrogation system for implanted rhythm devices.
+patient-monitor,"Patient monitor, 5-parameter",device,inpatient|critical-care|maternal-pediatric|surgical-procedural|emergency-trauma|renal-infusion,mobile,4200.00,"Bedside monitor for ECG, SpO2, NIBP, respiration and temperature."
+patient-weighing-scale,Patient weighing scale,device,inpatient|critical-care|maternal-pediatric|ambulatory|renal-infusion,mobile,450.00,"Chair, standing or bed scale with EHR export."
+point-of-care-ultrasound,Point-of-care ultrasound,device,emergency-trauma|critical-care|surgical-procedural|maternal-pediatric|ambulatory,mobile,18000.00,"Cart-based POCUS with abdominal, vascular and cardiac probes."
+pulse-oximeter,Pulse oximeter,device,inpatient|critical-care|maternal-pediatric|surgical-procedural|emergency-trauma|renal-infusion|rehabilitation|ambulatory,mobile,180.00,Handheld SpO2 and pulse-rate monitor with reusable probes.
+respiratory-gas-monitor,Respiratory gas monitor,device,surgical-procedural|critical-care,mobile,8500.00,"Oxygen, CO2 and anaesthetic-agent gas analysis."
+sequential-compression-device,Sequential compression device,device,inpatient|critical-care|surgical-procedural|maternal-pediatric,mobile,1800.00,DVT-prevention pump with calf or thigh sleeves.
+suction-regulator,Suction regulator,device,inpatient|critical-care|emergency-trauma|surgical-procedural|maternal-pediatric|renal-infusion,wall-mounted,250.00,Wall-mounted or portable vacuum regulator with collection canister.
+surgical-headlight,Surgical headlight,device,surgical-procedural|emergency-trauma,mobile,1600.00,LED headlight with adjustable spot and battery pack.
+syringe-pump,Syringe pump,device,critical-care|surgical-procedural|maternal-pediatric|emergency-trauma|renal-infusion,mobile,950.00,Low-volume syringe pump for vasoactive and paediatric infusions.
+telemetry-monitor,Telemetry monitor,device,inpatient|critical-care|emergency-trauma,mobile,8500.00,Central-station-linked cardiac telemetry for ambulatory inpatients.
+temperature-probe,Temperature probe,device,inpatient|critical-care|maternal-pediatric|surgical-procedural|emergency-trauma,mobile,80.00,Reusable or disposable core-temperature probe.
+tourniquet-timer,Tourniquet timer,device,surgical-procedural|emergency-trauma,wall-mounted,500.00,Dual-cuff tourniquet timer with audible elapsed-time alarms.
+transport-monitor,Transport monitor,device,critical-care|emergency-trauma|surgical-procedural|diagnostic-imaging,mobile,7500.00,Battery-powered monitor for intra-hospital and ambulance transport.
+tympanic-thermometer,Tympanic thermometer,device,inpatient|critical-care|maternal-pediatric|emergency-trauma|ambulatory|rehabilitation,mobile,180.00,Contact-free infrared thermometer with disposable probe covers.
+urine-output-meter,Urine output meter,device,critical-care|inpatient,mobile,250.00,Digital urometer for hourly urine-output trending.
+video-laryngoscope,Video laryngoscope,device,critical-care|emergency-trauma|surgical-procedural,mobile,12000.00,Video-assisted intubation system with disposable blades.
+vitals-monitor,Vital signs monitor,device,inpatient|critical-care|maternal-pediatric|emergency-trauma|ambulatory|rehabilitation,mobile,1400.00,Mobile vital-signs station used for rounds and admission checks.
+anesthesia-machine,Anaesthesia machine,equipment,surgical-procedural|maternal-pediatric|emergency-trauma,fixed,55000.00,"Anaesthesia workstation with ventilator, gas mixer and scavenging."
+apheresis-machine,Apheresis machine,equipment,renal-infusion|laboratory-pathology,fixed,95000.00,Cell separation system for therapeutic apheresis and stem-cell collection.
+arthroscopy-tower,Arthroscopy tower,equipment,surgical-procedural|ambulatory,mobile,75000.00,"Camera, light source, shaver and pump tower for joint surgery."
+audiometer,Audiometer,equipment,ambulatory,fixed,8000.00,Diagnostic audiometer with sound-treated booth interface.
+biosafety-cabinet,Biosafety cabinet,equipment,laboratory-pathology|pharmacy,fixed,12000.00,Class II biological safety cabinet with HEPA exhaust.
+blood-bank-refrigerator,Blood bank refrigerator,equipment,laboratory-pathology|surgical-procedural|emergency-trauma,fixed,7000.00,Alarmed 4°C blood-storage refrigerator with temperature logging.
+blood-gas-analyzer,Blood gas analyser,equipment,laboratory-pathology|critical-care|emergency-trauma,fixed,30000.00,"Point-of-care blood gas, electrolyte and metabolite analyser."
+blood-warmer,Blood warmer,equipment,surgical-procedural|emergency-trauma|critical-care,mobile,2500.00,Inline blood and fluid warming for transfusion.
+body-composition-analyzer,Body composition analyser,equipment,rehabilitation|ambulatory,fixed,9000.00,Bioimpedance analysis for rehabilitation and nutrition clinics.
+brachytherapy,Brachytherapy system,equipment,diagnostic-imaging|surgical-procedural,fixed,1300000.00,High-dose-rate brachytherapy afterloader and treatment planning.
+c-arm,C-arm fluoroscopy system,equipment,surgical-procedural|diagnostic-imaging|emergency-trauma,mobile,220000.00,Mobile or fixed C-arm for intraoperative and interventional imaging.
+cpap-bipap,CPAP / BiPAP device,equipment,critical-care|inpatient|ambulatory,mobile,1800.00,Non-invasive positive-pressure ventilation device.
+crrt-machine,CRRT machine,equipment,critical-care|renal-infusion,mobile,65000.00,Continuous renal replacement therapy for critical care.
+ct-128-slice,"CT scanner, 128-slice",equipment,diagnostic-imaging|emergency-trauma,fixed,1100000.00,"High-throughput CT for trauma, cardiac and vascular protocols."
+ct-64-slice,"CT scanner, 64-slice",equipment,diagnostic-imaging|emergency-trauma,fixed,750000.00,General diagnostic CT with contrast injector interface.
+stress-test-system,Cardiac stress test system,equipment,diagnostic-imaging|ambulatory,fixed,18000.00,Treadmill or bike stress system with ECG and metabolic cart.
+cell-saver,Cell saver,equipment,surgical-procedural,mobile,45000.00,Intraoperative blood salvage and autotransfusion system.
+chemo-biosafety-cabinet,Chemotherapy biosafety cabinet,equipment,pharmacy,fixed,18000.00,Class II cabinet with external exhaust for hazardous drug compounding.
+chemistry-analyzer,Clinical chemistry analyser,equipment,laboratory-pathology,fixed,125000.00,Automated chemistry panel analyser with sample handler.
+coagulation-analyzer,Coagulation analyser,equipment,laboratory-pathology,fixed,26000.00,"Automated PT, APTT and fibrinogen testing platform."
+dexa,DEXA bone densitometer,equipment,diagnostic-imaging|ambulatory,fixed,220000.00,Dual-energy X-ray absorptiometry for bone-density studies.
+dental-unit,Dental operatory unit,equipment,ambulatory,fixed,18000.00,"Dental chair, delivery system, light and suction."
+digital-xray-room,Digital radiography room,equipment,diagnostic-imaging|emergency-trauma,fixed,300000.00,Floor-mounted DR system with wall bucky and generator.
+ecmo-system,ECMO system,equipment,critical-care|surgical-procedural,mobile,85000.00,Extracorporeal membrane oxygenation console and circuit.
+eeg-system,EEG system,equipment,diagnostic-imaging|critical-care,mobile,32000.00,Digital electroencephalography with video and review station.
+emg-system,EMG / nerve conduction system,equipment,diagnostic-imaging|rehabilitation,mobile,38000.00,Electromyography and nerve-conduction diagnostic platform.
+echocardiography-machine,Echocardiography machine,equipment,diagnostic-imaging|ambulatory|critical-care,mobile,55000.00,"Cardiac ultrasound with Doppler, strain and stress packages."
+electrosurgical-generator,Electrosurgical generator,equipment,surgical-procedural|emergency-trauma|ambulatory,mobile,9000.00,Monopolar and bipolar electrosurgery console.
+endoscope-reprocessor,Endoscope reprocessor,equipment,sterile-processing|surgical-procedural,fixed,25000.00,Automated endoscope washer-disinfector with cycle logging.
+endoscopy-tower,Endoscopy tower,equipment,surgical-procedural|ambulatory,mobile,95000.00,"Video processor, light source, monitor and documentation stack."
+exam-light,Examination light,equipment,ambulatory|emergency-trauma|inpatient|maternal-pediatric,wall-mounted,2200.00,Wall or floor examination light with adjustable intensity.
+fluid-warmer,Fluid warmer,equipment,surgical-procedural|emergency-trauma|critical-care|inpatient,mobile,1800.00,Dry-heat IV fluid warmer for routine and emergency use.
+gait-harness,Gait training harness,equipment,rehabilitation,ceiling-mounted,7500.00,Overhead body-weight support and fall-arrest harness.
+dialysis-machine,Haemodialysis machine,equipment,renal-infusion,fixed,18000.00,Single-patient dialysis machine with ultrafiltration control.
+heart-lung-bypass,Heart-lung bypass machine,equipment,surgical-procedural,fixed,180000.00,Cardiopulmonary bypass console with heater-cooler unit.
+hematology-analyzer,Hematology analyser,equipment,laboratory-pathology,fixed,65000.00,Automated complete blood count and coagulation platform.
+high-flow-system,High-flow nasal cannula system,equipment,critical-care|emergency-trauma|inpatient,mobile,4500.00,Heated humidified high-flow oxygen therapy.
+hydrotherapy-treadmill,Hydrotherapy treadmill,equipment,rehabilitation,fixed,55000.00,Underwater treadmill with adjustable water level and jets.
+hyperbaric-chamber,Hyperbaric oxygen chamber,equipment,surgical-procedural|ambulatory,fixed,650000.00,Monochromatic or multiplace chamber with oxygen and monitoring.
+icu-ventilator,ICU ventilator,equipment,critical-care|emergency-trauma,mobile,28000.00,Invasive and non-invasive ventilation with waveform graphics.
+iv-compounding-isolator,IV compounding isolator,equipment,pharmacy,fixed,85000.00,Closed-system isolator for sterile IV admixture preparation.
+infant-incubator,Infant incubator,equipment,maternal-pediatric,fixed,9000.00,Neonatal incubator with temperature and humidity control.
+infant-warmer,Infant radiant warmer,equipment,maternal-pediatric|emergency-trauma,fixed,4500.00,Open-bed radiant warmer with resuscitation and scale options.
+intra-aortic-balloon-pump,Intra-aortic balloon pump,equipment,critical-care|surgical-procedural,mobile,65000.00,Counterpulsation support for cardiogenic shock.
+fume-hood,Laboratory fume hood,equipment,laboratory-pathology,fixed,8500.00,Ducted fume hood for chemical and histology work.
+lab-microscope,Laboratory microscope,equipment,laboratory-pathology,fixed,4500.00,Binocular or trinocular microscope with digital camera.
+insufflator,Laparoscopic insufflator,equipment,surgical-procedural,mobile,7000.00,CO2 insufflation system with heated-gas option.
+linear-accelerator,Linear accelerator,equipment,diagnostic-imaging,fixed,4200000.00,External-beam radiation therapy linac with image guidance.
+lithotripter,Lithotripter,equipment,surgical-procedural|ambulatory,fixed,450000.00,Extracorporeal shock-wave lithotripsy system.
+mri-1-5t,"MRI scanner, 1.5T",equipment,diagnostic-imaging,fixed,1800000.00,Wide-bore 1.5T magnetic resonance scanner with patient table.
+mri-3t,"MRI scanner, 3T",equipment,diagnostic-imaging,fixed,3200000.00,"High-field 3T scanner for neuro, musculoskeletal and research work."
+mammography,Mammography system,equipment,diagnostic-imaging|ambulatory,fixed,280000.00,Digital mammography unit with breast-tomography option.
+microbiology-incubator,Microbiology incubator,equipment,laboratory-pathology,fixed,5000.00,Temperature-controlled incubator for culture plates.
+mobile-xray,Mobile X-ray unit,equipment,diagnostic-imaging|emergency-trauma|critical-care|inpatient,mobile,65000.00,Battery-powered mobile radiography for bedside imaging.
+operating-table,Operating table,equipment,surgical-procedural,fixed,25000.00,Electrohydraulic surgical table with specialty tops and remote.
+pcr-thermocycler,PCR thermocycler,equipment,laboratory-pathology,fixed,18000.00,Molecular diagnostics platform for nucleic-acid amplification.
+pet-ct,PET/CT scanner,equipment,diagnostic-imaging,fixed,3500000.00,Combined PET and CT scanner with uptake room interface.
+phoropter,Phoropter / autorefractor,equipment,ambulatory,fixed,8500.00,Refraction system for ophthalmology and optometry clinics.
+phototherapy-unit,Phototherapy unit,equipment,maternal-pediatric,mobile,1800.00,Neonatal jaundice phototherapy with adjustable irradiance.
+plasma-freezer,Plasma freezer,equipment,laboratory-pathology,fixed,8500.00,Alarmed −30°C plasma freezer for blood components.
+platelet-incubator,Platelet incubator,equipment,laboratory-pathology,fixed,9000.00,Agitated 22°C platelet storage and monitoring unit.
+rapid-infuser,Rapid infuser,equipment,surgical-procedural|emergency-trauma|critical-care,mobile,6500.00,High-flow fluid and blood warmer for massive transfusion.
+spect-gamma-camera,SPECT gamma camera,equipment,diagnostic-imaging,fixed,850000.00,Nuclear medicine gamma camera with SPECT/CT option.
+slit-lamp,Slit lamp,equipment,ambulatory|emergency-trauma,fixed,5500.00,Ophthalmic slit-lamp biomicroscope with imaging option.
+steam-sterilizer,Steam sterilizer / autoclave,equipment,sterile-processing|laboratory-pathology,fixed,28000.00,Pre-vacuum steam autoclave with cycle documentation.
+sterile-sealer,Sterile packaging sealer,equipment,sterile-processing,fixed,3500.00,Heat or impulse sealer for sterile barrier packaging.
+surgical-laser,Surgical laser,equipment,surgical-procedural|ambulatory,mobile,95000.00,Specialty laser platform for soft-tissue procedures.
+surgical-lights,Surgical lights,equipment,surgical-procedural|emergency-trauma,ceiling-mounted,18000.00,Ceiling-mounted LED surgical lighting with camera option.
+surgical-microscope,Surgical microscope,equipment,surgical-procedural,ceiling-mounted,65000.00,Ceiling or floor-mounted operative microscope with image capture.
+surgical-navigation,Surgical navigation system,equipment,surgical-procedural,mobile,350000.00,Image-guided navigation for orthopaedic and neuro procedures.
+surgical-robot,Surgical robot,equipment,surgical-procedural,fixed,1100000.00,Robotic-assisted surgery console and patient-side cart.
+surgical-suction-unit,Surgical suction unit,equipment,surgical-procedural|emergency-trauma|critical-care,mobile,5500.00,High-flow surgical suction with dual canisters.
+tens-unit,TENS unit,equipment,rehabilitation|ambulatory,mobile,350.00,Transcutaneous electrical nerve stimulation for pain relief.
+pt-ultrasound-therapy,Therapeutic ultrasound,equipment,rehabilitation,mobile,1800.00,Physical-therapy ultrasound with thermal and non-thermal modes.
+traction-unit,Traction unit,equipment,rehabilitation,fixed,3500.00,Cervical or lumbar traction system for rehabilitation.
+transcranial-doppler,Transcranial Doppler,equipment,diagnostic-imaging|critical-care,mobile,28000.00,Cerebral blood-flow monitoring for neurocritical care.
+transport-ventilator,Transport ventilator,equipment,critical-care|emergency-trauma|diagnostic-imaging,mobile,12000.00,Compact turbine ventilator for transport and MRI-conditional use.
+ultrasonic-cleaner,Ultrasonic cleaner,equipment,sterile-processing|laboratory-pathology,fixed,4500.00,Ultrasonic bath for instrument and lumen cleaning.
+ultrasound-cart,"Ultrasound system, cart-based",equipment,diagnostic-imaging|emergency-trauma|maternal-pediatric|ambulatory|surgical-procedural,mobile,65000.00,"Shared-service ultrasound with abdominal, vascular and cardiac probes."
+washer-disinfector,Washer-disinfector,equipment,sterile-processing,fixed,45000.00,Automated instrument washer with thermal disinfection.
+access-control-headend,Access control headend,machine,support-logistics|plant-engineering,fixed,18000.00,Access-control controller and badge management server.
+ahu,Air handling unit,machine,plant-engineering,fixed,35000.00,"AHU with heating, cooling, filtration and economiser sections."
+automatic-transfer-switch,Automatic transfer switch,machine,plant-engineering,fixed,12000.00,Generator-to-utility transfer switch with bypass.
+bedpan-washer,Bedpan washer-disinfector,machine,support-logistics|inpatient,fixed,18000.00,Bedpan and urinal washer-disinfector with cycle logging.
+blanket-warmer,Blanket warmer,machine,surgical-procedural|critical-care|emergency-trauma|inpatient,fixed,3500.00,Warming cabinet for blankets and irrigation fluids.
+boiler,Boiler,machine,plant-engineering,fixed,65000.00,Steam or hot-water boiler with feedwater and blowdown systems.
+bms,Building management system,machine,plant-engineering|support-logistics,fixed,45000.00,"BMS headend for HVAC, energy and alarm monitoring."
+cctv-recorder,CCTV recorder,machine,support-logistics,fixed,1800.00,Network video recorder with encrypted storage.
+chiller,Chiller,machine,plant-engineering,fixed,150000.00,Water-cooled or air-cooled chiller for central cooling.
+commercial-dishwasher,Commercial dishwasher,machine,support-logistics,fixed,8500.00,Rack-conveyor or flight-type dishwasher with booster heater.
+cooling-tower,Cooling tower,machine,plant-engineering,fixed,38000.00,"Open cooling tower with basin, fill and fan assembly."
+dialysis-water-treatment,Dialysis water treatment,machine,plant-engineering|renal-infusion,fixed,45000.00,RO and distribution loop for dialysis water quality.
+diesel-generator,Diesel generator,machine,plant-engineering,fixed,180000.00,"Standby generator with fuel tank, muffler and control panel."
+domestic-hot-water-heater,Domestic hot water heater,machine,plant-engineering,fixed,6500.00,Gas-fired or electric hot-water heater with recirculation.
+electrical-panel,Electrical distribution panel,machine,plant-engineering,fixed,14000.00,Main or branch distribution panel with breakers.
+energy-meter,Energy meter,machine,plant-engineering,fixed,450.00,Electrical sub-meter with BMS integration.
+fire-alarm-panel,Fire alarm panel,machine,plant-engineering|support-logistics,wall-mounted,4500.00,Addressable fire alarm control panel and annunciator.
+fire-pump,Fire pump,machine,plant-engineering,fixed,12000.00,Electric or diesel fire pump with controller and jockey pump.
+fluid-warmer-cabinet,Fluid warming cabinet,machine,surgical-procedural|critical-care|emergency-trauma,fixed,4500.00,Temperature-controlled cabinet for IV and irrigation fluids.
+hepa-air-purifier,HEPA air purifier,machine,inpatient|critical-care|emergency-trauma,mobile,1800.00,Portable HEPA filtration unit for isolation and protective rooms.
+ice-machine,Ice machine,machine,support-logistics|inpatient|rehabilitation,fixed,5000.00,Dispenser-style ice machine with filtration.
+kitchen-exhaust-hood,Kitchen exhaust hood,machine,support-logistics,ceiling-mounted,7000.00,Commercial cooking hood with grease filters and make-up air.
+laundry-dryer,Laundry dryer,machine,support-logistics,fixed,18000.00,Commercial tumble dryer with lint collection.
+laundry-washer-extractor,Laundry washer-extractor,machine,support-logistics,fixed,32000.00,Commercial barrier washer-extractor with steam heating.
+medical-air-compressor,Medical air compressor,machine,plant-engineering,fixed,22000.00,Duty-standby medical air compressor with dryer and receiver.
+medical-gas-alarm-panel,Medical gas alarm panel,machine,plant-engineering|support-logistics,wall-mounted,4500.00,Master alarm panel for medical gas and vacuum systems.
+medical-vacuum-pump,Medical vacuum pump,machine,plant-engineering,fixed,18000.00,Duty-standby vacuum pump set with receiver and filters.
+negative-pressure-unit,Negative-pressure unit,machine,inpatient|critical-care|emergency-trauma|plant-engineering,wall-mounted,14000.00,HEPA-filtered exhaust unit for negative-pressure rooms.
+network-switch,Network switch,machine,support-logistics|plant-engineering,fixed,1800.00,Core or access switch with redundant power.
+nitrous-oxide-manifold,Nitrous oxide manifold,machine,plant-engineering,fixed,4500.00,Cylinder manifold and regulator for nitrous oxide.
+nurse-call-headend,Nurse call headend,machine,support-logistics|plant-engineering,fixed,22000.00,"Nurse call server, power supply and central display."
+oxygen-bulk-tank,Oxygen bulk tank,machine,plant-engineering,fixed,35000.00,Liquid oxygen bulk tank with vaporiser and fill connection.
+oxygen-concentrator,Oxygen concentrator,machine,inpatient|critical-care|ambulatory,mobile,1200.00,Continuous-flow oxygen concentrator for ward and clinic use.
+pacs-server,PACS server,machine,support-logistics|plant-engineering,fixed,45000.00,Medical image archive and viewing server.
+pharmacy-refrigerator,Pharmacy refrigerator,machine,pharmacy,fixed,3500.00,Alarmed pharmaceutical-grade refrigerator.
+pneumatic-tube-station,Pneumatic tube station,machine,support-logistics|laboratory-pathology|pharmacy|emergency-trauma,fixed,18000.00,Send/receive station for the pneumatic tube transport system.
+ro-water-system,Reverse-osmosis water system,machine,plant-engineering|laboratory-pathology,fixed,12000.00,"RO water production, storage and distribution loop."
+server-rack,Server rack,machine,support-logistics|plant-engineering,fixed,1500.00,"42U rack with power distribution, cooling and monitoring."
+steam-generator,Steam generator,machine,plant-engineering|sterile-processing,fixed,18000.00,Packaged clean-steam generator for sterilizers and humidification.
+pbx,Telephone PBX,machine,support-logistics|plant-engineering,fixed,3500.00,IP telephony server and gateway.
+transformer,Transformer,machine,plant-engineering,fixed,22000.00,Dry-type or oil-filled transformer for building distribution.
+ultra-low-freezer,Ultra-low-temperature freezer,machine,laboratory-pathology|pharmacy,fixed,12000.00,−80°C freezer for specimens and research samples.
+ups,Uninterruptible power supply,machine,plant-engineering|support-logistics,fixed,8500.00,Battery UPS for critical loads and clean shutdown.
+vaccine-refrigerator,Vaccine refrigerator,machine,ambulatory|pharmacy|support-logistics,fixed,2200.00,Purpose-built vaccine refrigerator with alarmed temperature logging.
+walk-in-freezer,Walk-in freezer,machine,support-logistics|pharmacy,fixed,18000.00,Frozen storage room with alarmed temperature monitoring.
+walk-in-refrigerator,Walk-in refrigerator,machine,support-logistics|pharmacy,fixed,15000.00,Cold room for food service or pharmacy bulk storage.
+compactor,Waste compactor,machine,support-logistics|plant-engineering,fixed,12000.00,Commercial waste compactor with controls.
+water-softener,Water softener,machine,plant-engineering,fixed,4500.00,Commercial water softener with brine tank.
+wifi-access-point,Wi-Fi access point,machine,all,ceiling-mounted,250.00,Clinical-grade wireless access point with PoE.
+airway-cart,Airway cart,medical-furniture,critical-care|emergency-trauma|surgical-procedural,mobile,900.00,"Difficult-airway cart with laryngoscopes, tubes and guides."
+anesthesia-cart,Anaesthesia cart,medical-furniture,surgical-procedural|emergency-trauma|critical-care,mobile,1500.00,Locking cart for anaesthesia supplies and airway equipment.
+bariatric-bed,Bariatric hospital bed,medical-furniture,inpatient|critical-care|emergency-trauma,fixed,6500.00,Heavy-duty electric bed with widened frame and reinforced rails.
+bedside-cabinet,Bedside cabinet,medical-furniture,inpatient|critical-care|maternal-pediatric,fixed,350.00,"Bedside storage unit with drawer, shelf and towel rail."
+birthing-bed,Birthing bed,medical-furniture,maternal-pediatric,fixed,12000.00,"Convertible labour, delivery and recovery bed with leg supports."
+casting-table,Casting table,medical-furniture,ambulatory|emergency-trauma,fixed,1800.00,Orthopaedic casting table with traction and drainage options.
+ceiling-lift,Ceiling patient lift,medical-furniture,inpatient|critical-care|rehabilitation,ceiling-mounted,12000.00,Overhead track lift for safe patient handling.
+commode-chair,Commode chair,medical-furniture,inpatient|rehabilitation|critical-care,mobile,180.00,Mobile commode chair with removable bucket and armrests.
+crash-cart,Crash cart,medical-furniture,inpatient|critical-care|emergency-trauma|surgical-procedural|diagnostic-imaging|ambulatory,mobile,1200.00,Sealed resuscitation cart with defibrillator shelf and checklist.
+dialysis-chair,Dialysis chair,medical-furniture,renal-infusion,fixed,2500.00,Powered treatment chair with Trendelenburg and scale option.
+dressing-trolley,Dressing trolley,medical-furniture,ambulatory|emergency-trauma|surgical-procedural,mobile,550.00,Stainless dressing trolley with shelves and waste holder.
+hospital-bed-electric,Electric hospital bed,medical-furniture,inpatient|critical-care|maternal-pediatric|ambulatory,fixed,3500.00,"Electric height, head and knee adjustment with side rails and brake."
+exam-table,Examination table,medical-furniture,ambulatory|maternal-pediatric|emergency-trauma,fixed,650.00,Adjustable exam table with paper roll and storage drawer.
+privacy-screen,Folding privacy screen,medical-furniture,all,mobile,180.00,Three-panel folding screen for temporary privacy.
+icu-bed,ICU bed,medical-furniture,critical-care|emergency-trauma|surgical-procedural,fixed,9500.00,Low-height critical-care bed with integrated scale and CPR release.
+iv-pole,IV pole,medical-furniture,inpatient|critical-care|emergency-trauma|surgical-procedural|renal-infusion|ambulatory,mobile,85.00,Stainless IV pole with four or six hooks and weighted base.
+bassinet,Infant bassinet,medical-furniture,maternal-pediatric,mobile,350.00,Mobile infant bassinet with storage shelf and locking casters.
+infant-changing-table,Infant changing table,medical-furniture,maternal-pediatric,fixed,450.00,Height-adjustable changing table with safety straps and storage.
+infusion-chair,Infusion chair,medical-furniture,renal-infusion|ambulatory,fixed,950.00,Reclining infusion chair with armrests and IV pole mount.
+instrument-trolley,Instrument trolley,medical-furniture,surgical-procedural|sterile-processing,mobile,450.00,Stainless instrument trolley with removable trays.
+isolation-cart,Isolation cart,medical-furniture,inpatient|critical-care|emergency-trauma,mobile,850.00,PPE and isolation-supply cart for contact and airborne precautions.
+linen-hamper,Linen hamper,medical-furniture,inpatient|critical-care|support-logistics,mobile,150.00,Vented linen hamper with foot pedal and removable bag.
+mayo-stand,Mayo stand,medical-furniture,surgical-procedural|emergency-trauma,mobile,250.00,Adjustable instrument stand for the sterile field.
+medication-cart,Medication cart,medical-furniture,inpatient|critical-care|pharmacy,mobile,1800.00,Locking medication cart with barcode-ready drawers.
+patient-lift,Mobile patient lift,medical-furniture,inpatient|critical-care|rehabilitation,mobile,5500.00,Battery-powered patient lift with sling and spreader bar.
+monitor-mount,Monitor mounting arm,medical-furniture,inpatient|critical-care|emergency-trauma|surgical-procedural,wall-mounted,250.00,Articulating arm for bedside or ceiling monitor mounting.
+overbed-table,Overbed table,medical-furniture,inpatient|critical-care|maternal-pediatric,mobile,280.00,Height-adjustable overbed table with tilt and locking casters.
+oxygen-cylinder-cart,Oxygen cylinder cart,medical-furniture,emergency-trauma|inpatient|critical-care,mobile,180.00,"Cylinder cart with two tanks, regulator and wall bracket."
+patient-belongings-cabinet,Patient belongings cabinet,medical-furniture,inpatient|emergency-trauma|critical-care,fixed,450.00,Lockable cabinet for patient valuables and belongings.
+patient-recliner,Patient recliner,medical-furniture,inpatient|renal-infusion|ambulatory|rehabilitation,mobile,1400.00,Clinical recliner with Trendelenburg and easy-clean upholstery.
+stretcher,Patient stretcher,medical-furniture,emergency-trauma|surgical-procedural|diagnostic-imaging|critical-care|support-logistics,mobile,1600.00,Adjustable transport stretcher with side rails and IV pole.
+patient-locker,Patient wardrobe / locker,medical-furniture,inpatient|critical-care|maternal-pediatric,fixed,450.00,Lockable patient wardrobe with hanging space and shelf.
+pediatric-crib,Pediatric crib,medical-furniture,maternal-pediatric,fixed,1200.00,Adjustable-height paediatric crib with drop-side rails.
+privacy-curtain,Privacy curtain,medical-furniture,inpatient|critical-care|emergency-trauma|ambulatory|renal-infusion|rehabilitation,ceiling-mounted,120.00,Ceiling-track cubicle curtain with disposable or washable fabric.
+procedure-table,Procedure table,medical-furniture,surgical-procedural|emergency-trauma|ambulatory,fixed,5500.00,Height-adjustable procedure table with padded top and straps.
+sharps-container-holder,Sharps container holder,medical-furniture,all,wall-mounted,35.00,Wall or cart-mounted holder for puncture-resistant sharps containers.
+shower-chair,Shower chair,medical-furniture,inpatient|rehabilitation|critical-care,mobile,150.00,Height-adjustable shower chair with drainage holes.
+specimen-transport-cart,Specimen transport cart,medical-furniture,laboratory-pathology|emergency-trauma|inpatient,mobile,450.00,Lockable cart with temperature-controlled specimen trays.
+footstool,Step stool,medical-furniture,all,mobile,90.00,Two-step stool with non-slip tread and handrail.
+sterile-instrument-table,Sterile instrument table,medical-furniture,surgical-procedural,fixed,750.00,Stainless sterile field table with height adjustment.
+suction-canister-holder,Suction canister holder,medical-furniture,inpatient|critical-care|emergency-trauma|surgical-procedural,wall-mounted,45.00,Wall or rail-mounted bracket for suction canisters.
+back-table,Surgical back table,medical-furniture,surgical-procedural,fixed,1800.00,Large stainless back table for sterile instrument setup.
+case-cart,Surgical case cart,medical-furniture,surgical-procedural|sterile-processing,mobile,2200.00,Closed case cart for sterile and soiled instrument transport.
+treatment-cart,Treatment cart,medical-furniture,inpatient|critical-care|emergency-trauma|surgical-procedural|ambulatory,mobile,850.00,"Mobile procedure cart with drawers, work surface and bin."
+wheelchair,Wheelchair,medical-furniture,inpatient|emergency-trauma|rehabilitation|ambulatory|support-logistics,mobile,250.00,Standard or bariatric wheelchair with removable footrests.
+bookshelf,Bookshelf,non-medical-furniture,administrative-staff|support-logistics,fixed,180.00,Open shelving unit for reference materials and supplies.
+break-room-chair,Break room chair,non-medical-furniture,administrative-staff|support-logistics,mobile,85.00,Stackable break room chair.
+break-room-table,Break room table,non-medical-furniture,administrative-staff|support-logistics,fixed,250.00,Four-person break room table with wipe-clean top.
+coat-rack,Coat rack,non-medical-furniture,all,mobile,80.00,Freestanding coat rack with hooks and umbrella holder.
+coffee-table,Coffee table,non-medical-furniture,administrative-staff|support-logistics|ambulatory,fixed,180.00,Low lounge coffee table with rounded edges.
+conference-table,Conference table,non-medical-furniture,administrative-staff,fixed,950.00,Twelve-person conference table with power and data modules.
+credenza,Credenza,non-medical-furniture,administrative-staff,fixed,550.00,Low storage credenza with doors and cable access.
+cubicle-partition,Cubicle partition,non-medical-furniture,administrative-staff,fixed,220.00,Acoustic partition panel for open offices.
+desk-lamp,Desk lamp,non-medical-furniture,administrative-staff,mobile,35.00,Adjustable LED task lamp.
+task-chair,Ergonomic task chair,non-medical-furniture,all,mobile,180.00,Adjustable task chair with lumbar support and casters.
+filing-cabinet,Filing cabinet,non-medical-furniture,administrative-staff|support-logistics,fixed,280.00,Three-drawer locking filing cabinet.
+guest-chair,Guest chair,non-medical-furniture,all,mobile,110.00,Upholstered guest chair with armrests.
+height-adjustable-desk,Height-adjustable desk,non-medical-furniture,administrative-staff|support-logistics,fixed,650.00,Sit-stand desk with electric height adjustment.
+keyboard-tray,Keyboard tray,non-medical-furniture,administrative-staff,fixed,45.00,Under-desk keyboard and mouse tray.
+lounge-sofa,Lounge sofa,non-medical-furniture,administrative-staff|support-logistics|ambulatory|emergency-trauma,fixed,650.00,Three-seat lounge sofa with cleanable upholstery.
+meeting-table,Meeting table,non-medical-furniture,administrative-staff|support-logistics,fixed,750.00,Six-person meeting table with cable grommets.
+mobile-pedestal,Mobile pedestal,non-medical-furniture,administrative-staff,mobile,150.00,Under-desk mobile drawer unit with lock.
+monitor-arm,Monitor arm,non-medical-furniture,administrative-staff|support-logistics|laboratory-pathology,fixed,85.00,Gas-spring monitor arm with cable management.
+office-desk,Office desk,non-medical-furniture,administrative-staff|support-logistics|ambulatory|pharmacy|laboratory-pathology,fixed,350.00,Standard 1.6 m desk with cable management and modesty panel.
+podium,Podium,non-medical-furniture,administrative-staff,mobile,350.00,Presentation podium with shelf and cable access.
+printer-stand,Printer stand,non-medical-furniture,administrative-staff|support-logistics,mobile,100.00,Mobile printer stand with paper storage.
+reception-desk,Reception desk,non-medical-furniture,support-logistics|ambulatory,fixed,1800.00,Modular reception counter with transaction top and storage.
+recycling-station,Recycling station,non-medical-furniture,all,fixed,180.00,Three-stream recycling and waste station.
+side-chair,Side chair,non-medical-furniture,all,mobile,75.00,Stackable side chair for meeting and waiting areas.
+lockers,Staff lockers,non-medical-furniture,administrative-staff|support-logistics,fixed,350.00,Bank of six lockable staff lockers.
+storage-cabinet,Storage cabinet,non-medical-furniture,all,fixed,450.00,Lockable storage cabinet with adjustable shelves.
+umbrella-stand,Umbrella stand,non-medical-furniture,support-logistics|ambulatory,mobile,45.00,Drip tray umbrella stand for entrances.
+waiting-bench,Waiting bench,non-medical-furniture,support-logistics|ambulatory|emergency-trauma|diagnostic-imaging,fixed,350.00,Four-seat waiting bench with arms and easy-clean finish.
+waiting-chair-set,Waiting chair set,non-medical-furniture,support-logistics|ambulatory|emergency-trauma,fixed,650.00,Set of four linked waiting chairs with arms.
+waste-bin,Waste bin,non-medical-furniture,all,mobile,35.00,Foot-pedal waste bin with removable liner.
+whiteboard,Whiteboard,non-medical-furniture,administrative-staff|support-logistics|pharmacy|laboratory-pathology,wall-mounted,120.00,Magnetic whiteboard with marker tray.

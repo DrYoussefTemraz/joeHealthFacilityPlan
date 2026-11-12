@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="300" viewBox="0 0 1100 300" role="img" aria-labelledby="title desc">
+  <title id="title">JoeHealthPlan logo</title>
+  <desc id="desc">A healthcare facility and location pin inside a teal planning arc, beside the JoeHealthPlan wordmark.</desc>
+  <defs>
+    <linearGradient id="teal" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#12BFA7"/>
+      <stop offset="1" stop-color="#008D80"/>
+    </linearGradient>
+  </defs>
+  <g transform="translate(20 12)">
+    <!-- Planning arc -->
+    <path d="M42 198 A132 132 0 0 1 278 72" fill="none" stroke="url(#teal)" stroke-width="13" stroke-linecap="round"/>
+    <!-- Hospital wings -->
+    <path d="M45 150 L94 127 L94 218 L45 240 Z" fill="#123968"/>
+    <path d="M202 127 L251 150 L251 240 L202 218 Z" fill="#123968"/>
+    <path d="M91 91 L148 65 L205 91 L205 225 L91 225 Z" fill="#123968"/>
+    <!-- Windows -->
+    <g fill="#FFFFFF" opacity=".96">
+      <rect x="59" y="166" width="12" height="18" rx="2"/>
+      <rect x="59" y="197" width="12" height="18" rx="2"/>
+      <rect x="225" y="166" width="12" height="18" rx="2"/>
+      <rect x="225" y="197" width="12" height="18" rx="2"/>
+      <rect x="105" y="111" width="12" height="15" rx="2"/>
+      <rect x="179" y="111" width="12" height="15" rx="2"/>
+    </g>
+    <!-- Medical cross -->
+    <path d="M137 111 H159 V137 H185 V159 H159 V185 H137 V159 H111 V137 H137 Z" fill="#FFFFFF"/>
+    <!-- Location pin -->
+    <path d="M259 34 C259 10 278 -7 301 -7 C324 -7 343 10 343 34 C343 65 301 111 301 111 C301 111 259 65 259 34 Z" fill="url(#teal)"/>
+    <circle cx="301" cy="34" r="13" fill="#FFFFFF"/>
+    <!-- Ground / planning line -->
+    <path d="M18 250 Q144 198 276 250" fill="none" stroke="url(#teal)" stroke-width="12" stroke-linecap="round"/>
+  </g>
+  <path d="M375 43 V257" stroke="#D7E0E9" stroke-width="2"/>
+  <text x="420" y="145" font-family="Inter, Arial, sans-serif" font-size="76" font-weight="750" letter-spacing="-2">
+    <tspan fill="#123968">Joe</tspan><tspan fill="#00A98F">Health</tspan><tspan fill="#123968">Plan</tspan>
+  </text>
+  <text x="425" y="202" font-family="Inter, Arial, sans-serif" font-size="26" font-weight="500" letter-spacing="5" fill="#123968">PLAN <tspan fill="#00A98F">•</tspan> DESIGN <tspan fill="#00A98F">•</tspan> OPTIMIZE</text>
+  <text x="426" y="241" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="400" letter-spacing="2.2" fill="#536780">FOR BETTER HEALTHCARE FACILITIES</text>
+</svg>

@@ -56,6 +56,7 @@ src/
     facilities/[slug]/page.tsx    Facility plan (generateStaticParams + generateMetadata)
     planner/page.tsx              Virtual hospital building planner
     contact/page.tsx              Contact
+    contact/actions.ts            Server Action: validate + save review requests
     globals.css                   Design tokens (light + dark) and base styles
   components/
     site-header.tsx               Sticky nav
@@ -67,7 +68,7 @@ src/
     stat.tsx                      Label / value pair for `<dl>` metric blocks
     badge.tsx                     Status, phase and condition badges
     labels.ts                     Enum -> display label and badge variant maps
-    contact-form.tsx              Client component — local state only
+    contact-form.tsx              Client form — Server Action + inline field errors
     icons.tsx                     Inline SVG icon set (no icon dependency)
     planner/
       building-planner.tsx        Client boundary: state, localStorage and example loading
@@ -79,8 +80,9 @@ src/
       bill-of-materials.tsx       Aggregated quantity and cost table
   lib/
     types.ts                      Domain types (Facility, Zone, CapitalProject, planner, ...)
-    data.ts                       Cached read layer — the data-access seam
+    data.ts                       Cached read layer + review-request mutation
     db.ts                         Prisma client singleton
+    review-request.ts             Topic options and shared form state types
     fixtures/
       facilities.ts               Portfolio seed data (not read by pages)
     format.ts                     Currency, area and percent formatting
@@ -96,8 +98,11 @@ src/
       machines.ts                 Plant, IT, laundry and back-of-house machinery
       presets.ts                  Example buildings
 prisma/
-  schema.prisma                   Postgres schema (facilities, projects, catalog)
-  seed.ts                         Idempotent seed from fixtures + planner data
+  data/
+    catalog-assets-priced.csv     USD planning prices applied to the catalog
+    catalog-assets-sources.csv    EGP ranges, FX, confidence and source notes
+  schema.prisma                   Postgres schema (facilities, projects, catalog, requests)
+  seed.ts                         Idempotent seed from fixtures + planner data + price overlay
   migrations/                     Applied SQL migrations
 ```
 
@@ -142,6 +147,15 @@ query. Tags are `facilities`, `facility-<slug>`, `projects` and
 be serializable; `CapitalProject.budgetCents` is a Postgres `BIGINT` converted
 to a number.
 
+Asset structure still comes from `src/lib/planner-data/`. Unit prices are
+overlaid from `prisma/data/catalog-assets-priced.csv`; the matching
+`catalog-assets-sources.csv` carries the EGP ranges, FX rate, confidence and
+source notes. The seed matches both files by asset ID and refuses to run if any
+ID is missing, duplicated or unknown. The USD values in the database are
+planning estimates, not verified procurement quotations. The current baseline
+has 247 low-confidence expert estimates and one medium-confidence historical
+benchmark.
+
 ### Local database setup
 
 1. Copy `.env.example` to `.env` and paste the Neon **direct** (non-pooler)
@@ -168,11 +182,36 @@ rows reference those records.
   Validation stays in TypeScript for now.
 - Project budgets are `BIGINT` because some portfolio values exceed the
   32-bit `integer` range.
+- Asset unit costs stay `integer` USD cents. The price overlay also stores
+  `priceConfidence`, source type/title/publisher/URL, the checked date and the
+  cost basis so preliminary estimates are auditable in Prisma Studio.
 - Catalog ordering is stored explicitly (`sortOrder`) so recommended setups,
   rooms and presets come back in the same order as the fixtures.
 - `"use cache"` cannot serialize Prisma records, `BigInt` or `Date`; the
   mappers in `src/lib/data.ts` convert to domain shapes first.
 
+## Review requests
+
+The contact form at `/contact` is a Server Action, not a client-only
+placeholder. `submitReviewRequest` in `src/app/contact/actions.ts` validates
+the fields on the server (required values, email format, topic whitelist and
+length limits), then calls `createReviewRequest()` in `src/lib/data.ts`.
+
+The client uses React's `useActionState` to show pending, field-error and
+success states. Native `required`, `type="email"`, `minLength` and `maxLength`
+attributes provide fast feedback; the server checks remain the source of truth.
+A hidden honeypot field silently discards basic bot submissions.
+
+Submissions are stored in the `ReviewRequest` table (status defaults to
+`new`). They are user data: do **not** wrap the list in `"use cache"` or add a
+public page for them. To view and triage them locally:
+
+```bash
+npm run db:studio
+```
+
+Open the `ReviewRequest` model. For production, add an authenticated admin page
+or a notification email instead of exposing the table.
 
 ## Virtual building planner
 
@@ -209,16 +248,19 @@ and extended costs.
 ### Adding catalog data
 
 1. Add an `AssetTemplate` to the matching file in `src/lib/planner-data/` with a
-   unique kebab-case `id`, unit cost in cents, utilities, installation type and
-   compatible room categories.
+   unique kebab-case `id`, a fallback unit cost in cents, utilities,
+   installation type and compatible room categories.
 2. Add or reuse a recommended setup in `setups.ts` using `q("asset-id", qty)`.
 3. Add a `RoomTemplate` to `rooms.ts` with its category, default area, patient
    beds, utilities and `recommendedSetup`.
 4. Update `presets.ts` only if the example hospital should include the new room.
-5. Verify every recommended asset ID and preset room ID resolves, then run lint,
-   type-check and build.
+5. Add one row for the new `id` to both
+   `prisma/data/catalog-assets-priced.csv` and
+   `prisma/data/catalog-assets-sources.csv`.
+6. Verify every recommended asset ID and preset room ID resolves, then run
+   `npm run db:seed`, lint, type-check and build.
 
-Costs, utilities, room sizes and recommended setups are mock values for
+Costs, utilities, room sizes and recommended setups are planning inputs for
 demonstration. They are **not** procurement, engineering or clinical guidance.
 
 ## Things to know about this Next.js version
@@ -247,7 +289,8 @@ worth knowing before you add code:
    matching `cacheTag`s after each mutation.
 2. Persist `BuildingPlan` records in Postgres (a `Plan` table keyed by user)
    instead of leaving them in one browser's localStorage.
-3. Wire the contact form to a Server Action and persist submissions.
+3. Add an authenticated admin view (or a notification email) for review
+   requests, and keep the list uncached.
 4. Add auth and per-site permissions before exposing write endpoints.
 5. Track history per project (phase transitions, budget revisions) instead of
    the single `progressPct` snapshot.

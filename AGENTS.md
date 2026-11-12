@@ -57,8 +57,17 @@ Run lint, type-check and build before considering a change finished.
     `non-medical-furniture.ts`, `machines.ts` — the five asset groups
   - `presets.ts` — example buildings
   - `index.ts` — combines everything into `plannerCatalog`
+- Asset structure lives in `src/lib/planner-data/`, but unit prices are
+  overlaid from `prisma/data/catalog-assets-priced.csv` and
+  `prisma/data/catalog-assets-sources.csv`. The seed validates both files by
+  asset ID and stores `priceConfidence`, source metadata and cost basis.
 - Facility fixtures live in `src/lib/fixtures/facilities.ts` and are seed input
   only. `prisma/seed.ts` is idempotent and replaces reference data.
+- Contact form submissions use the Server Action in
+  `src/app/contact/actions.ts`, which validates input and calls
+  `createReviewRequest()` in `src/lib/data.ts`. Review requests are user data:
+  never cache them or expose them on a public page; view them with
+  `npm run db:studio`.
 - Pure planner logic belongs in `src/lib/planner.ts` (compatibility, totals,
   bill of materials, category ordering). Keep UI components free of duplicated
   calculation logic.
@@ -76,7 +85,9 @@ Run lint, type-check and build before considering a change finished.
   After adding data, verify that every recommended asset ID exists and every
   preset room template ID exists.
 - The planner is illustrative. Do not present costs, utilities, recommended
-  setups or room sizes as procurement or clinical guidance.
+  setups or room sizes as procurement or clinical guidance. Unit prices carry
+  `priceConfidence`; the current baseline is mostly `low` (expert estimates),
+  so keep the preliminary-estimate wording visible.
 - Planner state is client-side and autosaved to
   `joehealthplan.virtual-building.v1` in localStorage. State types are in
   `src/lib/types.ts` and are designed to be serialized to a future API.
@@ -86,14 +97,17 @@ Run lint, type-check and build before considering a change finished.
 ## Adding catalog data
 
 1. Add the asset to the matching file in `src/lib/planner-data/` with a unique
-   `id`, category, description, unit cost in cents, utilities, compatible room
-   categories and installation type.
+   `id`, category, description, fallback unit cost in cents, utilities,
+   compatible room categories and installation type.
 2. Add or reuse a setup in `setups.ts` using `q("asset-id", quantity)`.
 3. Add the room template to `rooms.ts` with the correct category, area, patient
    beds, utilities and `recommendedSetup`.
 4. Add it to a preset in `presets.ts` only if the example building should show
    it.
-5. Run `npm run db:seed` to refresh the catalog tables, then lint, type-check and
+5. Add one row for the new `id` to both
+   `prisma/data/catalog-assets-priced.csv` and
+   `prisma/data/catalog-assets-sources.csv`.
+6. Run `npm run db:seed` to refresh the catalog tables, then lint, type-check and
    build.
 
 ## Next.js 16 constraints in this repo

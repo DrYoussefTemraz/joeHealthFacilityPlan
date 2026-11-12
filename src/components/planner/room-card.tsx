@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 
 import { Badge } from "@/components/badge";
 import {
@@ -55,6 +55,15 @@ export function RoomCard({
     () => getRecommendedAssets(catalog, template),
     [catalog, template],
   );
+  const [showAllUtilities, setShowAllUtilities] = useState(false);
+  const visibleUtilities = showAllUtilities
+    ? template.utilities
+    : template.utilities.slice(0, 3);
+  const hiddenUtilityCount = Math.max(template.utilities.length - 3, 0);
+  const hiddenUtilityLabels = template.utilities
+    .slice(3)
+    .map((utility) => medicalUtilityLabels[utility])
+    .join(", ");
 
   const rows: AssetRow[] = room.assets.flatMap((placed) => {
     const asset = assetMap.get(placed.assetId);
@@ -104,13 +113,25 @@ export function RoomCard({
             ? "No patient beds"
             : `${template.patientBeds} ${template.patientBeds === 1 ? "bed" : "beds"}`}
         </Badge>
-        {template.utilities.slice(0, 3).map((utility) => (
+        {visibleUtilities.map((utility) => (
           <Badge key={utility} variant="neutral">
             {medicalUtilityLabels[utility]}
           </Badge>
         ))}
-        {template.utilities.length > 3 ? (
-          <Badge variant="neutral">+{template.utilities.length - 3}</Badge>
+        {hiddenUtilityCount > 0 ? (
+          <button
+            type="button"
+            onClick={() => setShowAllUtilities((current) => !current)}
+            aria-expanded={showAllUtilities}
+            title={
+              showAllUtilities
+                ? "Show fewer utilities"
+                : `Also requires: ${hiddenUtilityLabels}`
+            }
+            className="inline-flex items-center whitespace-nowrap rounded-full bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground transition-colors hover:bg-brand-soft hover:text-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+          >
+            {showAllUtilities ? "Show fewer" : `+${hiddenUtilityCount} more`}
+          </button>
         ) : null}
       </div>
 
