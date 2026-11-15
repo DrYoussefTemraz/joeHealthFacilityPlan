@@ -30,7 +30,7 @@ export function PlannerSummary({ summary }: PlannerSummaryProps) {
             </dd>
           </div>
           <div>
-            <dt className="text-xs text-muted-foreground">Patient beds</dt>
+            <dt className="text-xs text-muted-foreground">Beds</dt>
             <dd className="mt-0.5 text-lg font-semibold">
               {summary.patientBeds}
             </dd>

@@ -9,9 +9,11 @@ const DEFAULT_FLOORS: Floor[] = [
   { id: "floor-2", name: "Level 2", level: 2 },
 ];
 
-export function createEmptyBuilding(): BuildingPlan {
+export function createEmptyBuilding(
+  name: string = EMPTY_BUILDING_NAME,
+): BuildingPlan {
   return {
-    name: EMPTY_BUILDING_NAME,
+    name,
     floors: DEFAULT_FLOORS.map((floor) => ({ ...floor })),
     rooms: [],
   };
@@ -47,7 +49,7 @@ export type BuildingAction =
       delta: number;
     }
   | { type: "removeAsset"; roomId: string; placedAssetId: string }
-  | { type: "reset" };
+  | { type: "reset"; name?: string };
 
 export function buildingReducer(
   state: BuildingPlan,
@@ -197,6 +199,6 @@ export function buildingReducer(
       };
 
     case "reset":
-      return createEmptyBuilding();
+      return createEmptyBuilding(action.name);
   }
 }

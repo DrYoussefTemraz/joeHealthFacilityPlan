@@ -13,7 +13,10 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 ## What this project is
 
 JoeHealthPlan is a healthcare facility master-planning and capital-program site
-with an interactive **virtual hospital building planner** at `/planner`.
+with interactive **virtual hospital** and **virtual hotel** building planners at
+`/planner` and `/planner/hotels`. Both verticals share the same tables, pure
+planner logic and UI components; only the catalog data, category sets, page copy
+and localStorage key differ.
 
 Stack: Next.js 16 App Router, React 19, TypeScript (strict), Tailwind CSS v4.
 There is no UI component library and no 3D library; use the existing Tailwind
@@ -46,17 +49,24 @@ Run lint, type-check and build before considering a change finished.
   `src/lib/types.ts` stable.
 - The database-backed getters use `"use cache"` with `cacheLife` and
   `cacheTag`. Tags are `facilities`, `facility-<slug>`, `projects` and
-  `planner-catalog`; invalidate them after mutations.
+  `planner-catalog-<vertical>`; invalidate them after mutations.
 - Cached return values must be serializable. Mappers convert Prisma records
   to plain domain objects and Postgres `BIGINT` budgets to `number`.
 - Money is stored in **cents**; areas are stored in **square meters**.
-- The planner catalog seed data lives in `src/lib/planner-data/`:
-  - `rooms.ts` — room templates grouped by the 15 room categories
-  - `setups.ts` — reusable recommended-setup lists and the `q()` helper
-  - `devices.ts`, `equipment.ts`, `medical-furniture.ts`,
-    `non-medical-furniture.ts`, `machines.ts` — the five asset groups
-  - `presets.ts` — example buildings
-  - `index.ts` — combines everything into `plannerCatalog`
+- Planner catalog seed data lives in `src/lib/planner-data/`:
+  - Healthcare (default `plannerCatalog`): `rooms.ts`, `setups.ts`,
+    `devices.ts`, `equipment.ts`, `medical-furniture.ts`,
+    `non-medical-furniture.ts`, `machines.ts`, `presets.ts`
+  - Hospitality (`src/lib/planner-data/hotel/`, `hotelPlannerCatalog`):
+    `rooms.ts`, `setups.ts`, `devices.ts`, `equipment.ts`,
+    `guest-furniture.ts`, `public-furniture.ts`, `machines.ts`, `presets.ts`
+  - `index.ts` combines the healthcare catalog and re-exports the hotel catalog.
+  - `2026-11` baseline: 130 hospital rooms / 248 assets / 3 presets and
+    70 hotel rooms / 183 assets / 3 presets.
+- `AssetTemplate`, `RoomTemplate` and `BuildingPreset` carry a `vertical`
+  column (`"healthcare" | "hospitality"`). `getPlannerCatalog(vertical)` filters
+  on it and defaults to `"healthcare"`; the hotel page must pass
+  `"hospitality"`.
 - Asset structure lives in `src/lib/planner-data/`, but unit prices are
   overlaid from `prisma/data/catalog-assets-priced.csv` and
   `prisma/data/catalog-assets-sources.csv`. The seed validates both files by
@@ -74,34 +84,48 @@ Run lint, type-check and build before considering a change finished.
 
 ## Planner conventions
 
-- The five asset categories are exactly: `device`, `equipment`,
-  `medical-furniture`, `non-medical-furniture`, `machine`.
+- The five asset categories per vertical are exact:
+  - Hospital: `device`, `equipment`, `medical-furniture`,
+    `non-medical-furniture`, `machine`.
+  - Hotel: `device`, `equipment`, `guest-furniture`, `public-furniture`,
+    `machine`.
+  Use `getAssetCategoryOrder(catalog.vertical)` and
+  `getRoomCategoryOrder(catalog.vertical)` instead of the raw order constants so
+  pickers and summaries stay vertical-aware.
 - Room compatibility is data-driven through `AssetTemplate.roomCategories`.
   Use `"all"` only for genuinely universal items such as waste bins, sharps
   holders or Wi-Fi access points.
 - Recommended setups live on room templates and reference asset IDs. Add new
-  entries through `setups.ts` so recommendations stay reusable.
-- Catalog IDs are stable strings and should read as kebab-case identifiers.
-  After adding data, verify that every recommended asset ID exists and every
+  entries through `setups.ts` so recommendations stay reusable. Composite hotel
+  setups use `mergeSetups()` so an asset appears once per room with a summed
+  quantity; the database enforces one recommended line per room and asset.
+- Catalog IDs are stable strings and should read as kebab-case identifiers. All
+  hotel asset and room IDs start with `hotel-` to avoid collisions with hospital
+  IDs in the shared tables.
+- After adding data, verify that every recommended asset ID exists and every
   preset room template ID exists.
-- The planner is illustrative. Do not present costs, utilities, recommended
-  setups or room sizes as procurement or clinical guidance. Unit prices carry
-  `priceConfidence`; the current baseline is mostly `low` (expert estimates),
-  so keep the preliminary-estimate wording visible.
+- The planners are illustrative. Do not present costs, utilities, recommended
+  setups or room sizes as procurement, clinical or design guidance. Unit prices
+  carry `priceConfidence`; the current baseline is mostly `low` (expert
+  estimates), so keep the preliminary-estimate wording visible.
 - Planner state is client-side and autosaved to
-  `joehealthplan.virtual-building.v1` in localStorage. State types are in
-  `src/lib/types.ts` and are designed to be serialized to a future API.
+  `joehealthplan.virtual-building.v1` (hospital) or
+  `joehealthplan.virtual-hotel.v1` (hotel) in localStorage. Page copy, storage
+  keys and default names live in `src/lib/planner-verticals.ts`. State types are
+  in `src/lib/types.ts` and are designed to be serialized to a future API.
 - Generate room, asset and floor IDs only inside event handlers. The README
   explains why synchronous random IDs cannot run during prerendering.
 
 ## Adding catalog data
 
-1. Add the asset to the matching file in `src/lib/planner-data/` with a unique
-   `id`, category, description, fallback unit cost in cents, utilities,
-   compatible room categories and installation type.
-2. Add or reuse a setup in `setups.ts` using `q("asset-id", quantity)`.
-3. Add the room template to `rooms.ts` with the correct category, area, patient
-   beds, utilities and `recommendedSetup`.
+1. Add the asset to the matching file in `src/lib/planner-data/` (hospital) or
+   `src/lib/planner-data/hotel/` (hotel) with a unique `id`, category,
+   description, fallback unit cost in cents, utilities, compatible room
+   categories and installation type. Prefix hotel IDs with `hotel-`.
+2. Add or reuse a setup in the vertical's `setups.ts` using
+   `q("asset-id", quantity)`; use `mergeSetups()` for composite hotel setups.
+3. Add the room template to `rooms.ts` with the correct category, area, beds,
+   utilities and `recommendedSetup`.
 4. Add it to a preset in `presets.ts` only if the example building should show
    it.
 5. Add one row for the new `id` to both
@@ -147,11 +171,13 @@ Run lint, type-check and build before considering a change finished.
 
 ## Verification checklist for planner changes
 
-- `/planner` renders and the header/footer links work.
+- `/planner` and `/planner/hotels` render and the header/footer links work.
 - Adding a room places it on the chosen floor and resets the dropdown.
-- Only compatible assets appear in a room’s picker.
+- Only compatible assets appear in a room’s picker, grouped in the vertical’s
+  five categories.
 - Quantities, room totals, building summary and bill of materials agree.
-- Reloading restores the saved building; Reset clears it.
+- Reloading restores the saved building; Reset clears it. The two planners keep
+  separate saved plans.
 - Load example replaces the building after confirmation.
 - Empty states, mobile stacking and dark mode look correct.
 - No hydration warnings and no synchronous random IDs during prerender.

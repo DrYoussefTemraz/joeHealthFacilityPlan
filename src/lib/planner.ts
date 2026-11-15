@@ -5,11 +5,12 @@ import type {
   MedicalUtility,
   PlacedRoom,
   PlannerCatalog,
+  PlannerVertical,
   RoomCategory,
   RoomTemplate,
 } from "./types";
 
-/** Presentation order for the five asset groups. */
+/** Presentation order for the five healthcare asset groups. */
 export const ASSET_CATEGORY_ORDER: AssetCategory[] = [
   "device",
   "equipment",
@@ -18,7 +19,24 @@ export const ASSET_CATEGORY_ORDER: AssetCategory[] = [
   "machine",
 ];
 
-/** Presentation order for the room dropdown groups. */
+/** Presentation order for the five hospitality asset groups. */
+export const HOSPITALITY_ASSET_CATEGORY_ORDER: AssetCategory[] = [
+  "device",
+  "equipment",
+  "guest-furniture",
+  "public-furniture",
+  "machine",
+];
+
+export function getAssetCategoryOrder(
+  vertical: PlannerVertical,
+): AssetCategory[] {
+  return vertical === "hospitality"
+    ? HOSPITALITY_ASSET_CATEGORY_ORDER
+    : ASSET_CATEGORY_ORDER;
+}
+
+/** Presentation order for the healthcare room dropdown groups. */
 export const ROOM_CATEGORY_ORDER: RoomCategory[] = [
   "inpatient",
   "critical-care",
@@ -36,6 +54,33 @@ export const ROOM_CATEGORY_ORDER: RoomCategory[] = [
   "administrative-staff",
   "plant-engineering",
 ];
+
+/** Presentation order for the hospitality room dropdown groups. */
+export const HOSPITALITY_ROOM_CATEGORY_ORDER: RoomCategory[] = [
+  "guest-rooms",
+  "suites",
+  "front-office",
+  "food-beverage",
+  "kitchen",
+  "meeting-events",
+  "wellness-leisure",
+  "housekeeping-laundry",
+  "back-of-house",
+  "guest-services",
+  "health-safety",
+  "parking-transport",
+  "outdoor-leisure",
+  "engineering-plant",
+  "administrative-staff",
+];
+
+export function getRoomCategoryOrder(
+  vertical: PlannerVertical,
+): RoomCategory[] {
+  return vertical === "hospitality"
+    ? HOSPITALITY_ROOM_CATEGORY_ORDER
+    : ROOM_CATEGORY_ORDER;
+}
 
 /** Presentation order for utility badges. */
 export const MEDICAL_UTILITY_ORDER: MedicalUtility[] = [
@@ -113,23 +158,27 @@ export function getCompatibleAssets(
   catalog: PlannerCatalog,
   room: RoomTemplate,
 ): AssetTemplate[] {
+  const order = getAssetCategoryOrder(catalog.vertical);
+
   return catalog.assetTemplates
     .filter((asset) => isCompatible(asset, room))
     .sort(
       (a, b) =>
-        ASSET_CATEGORY_ORDER.indexOf(a.category) -
-          ASSET_CATEGORY_ORDER.indexOf(b.category) ||
+        order.indexOf(a.category) - order.indexOf(b.category) ||
         a.name.localeCompare(b.name),
     );
 }
 
 export function groupAssetsByCategory(
   assets: AssetTemplate[],
+  order: AssetCategory[] = ASSET_CATEGORY_ORDER,
 ): Array<{ category: AssetCategory; assets: AssetTemplate[] }> {
-  return ASSET_CATEGORY_ORDER.map((category) => ({
-    category,
-    assets: assets.filter((asset) => asset.category === category),
-  })).filter((group) => group.assets.length > 0);
+  return order
+    .map((category) => ({
+      category,
+      assets: assets.filter((asset) => asset.category === category),
+    }))
+    .filter((group) => group.assets.length > 0);
 }
 
 export function getRecommendedAssets(
@@ -165,8 +214,9 @@ export function calculateBuildingSummary(
 ): BuildingSummary {
   const rooms = createRoomMap(catalog);
   const assets = createAssetMap(catalog);
+  const categoryOrder = getAssetCategoryOrder(catalog.vertical);
   const categoryTotals = new Map<AssetCategory, AssetCategoryBreakdown>(
-    ASSET_CATEGORY_ORDER.map((category) => [
+    categoryOrder.map((category) => [
       category,
       { category, quantity: 0, costCents: 0 },
     ]),
@@ -212,7 +262,7 @@ export function calculateBuildingSummary(
     areaSqm,
     assetQuantity,
     assetCostCents,
-    categories: ASSET_CATEGORY_ORDER.map(
+    categories: categoryOrder.map(
       (category) => categoryTotals.get(category)!,
     ),
     utilities: MEDICAL_UTILITY_ORDER.filter((utility) => utilities.has(utility)),
@@ -224,6 +274,7 @@ export function calculateBillOfMaterials(
   catalog: PlannerCatalog,
 ): BillOfMaterialsRow[] {
   const assets = createAssetMap(catalog);
+  const categoryOrder = getAssetCategoryOrder(catalog.vertical);
   const rows = new Map<
     string,
     { asset: AssetTemplate; quantity: number; roomIds: Set<string> }
@@ -259,8 +310,8 @@ export function calculateBillOfMaterials(
     }))
     .sort(
       (a, b) =>
-        ASSET_CATEGORY_ORDER.indexOf(a.asset.category) -
-          ASSET_CATEGORY_ORDER.indexOf(b.asset.category) ||
+        categoryOrder.indexOf(a.asset.category) -
+          categoryOrder.indexOf(b.asset.category) ||
         a.asset.name.localeCompare(b.asset.name),
     );
 }

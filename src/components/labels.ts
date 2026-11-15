@@ -4,6 +4,7 @@ import type {
   FacilityStatus,
   FacilityType,
   MedicalUtility,
+  PlannerVertical,
   ProjectCategory,
   ProjectPhase,
   RoomCategory,
@@ -99,6 +100,20 @@ export const roomCategoryLabels: Record<RoomCategory, string> = {
   "support-logistics": "Support & logistics",
   "administrative-staff": "Administrative & staff",
   "plant-engineering": "Plant & engineering",
+  "guest-rooms": "Guest rooms",
+  suites: "Suites & apartments",
+  "front-office": "Front office & lobby",
+  "food-beverage": "Food & beverage",
+  kitchen: "Kitchen & servery",
+  "meeting-events": "Meeting & events",
+  "wellness-leisure": "Wellness & leisure",
+  "housekeeping-laundry": "Housekeeping & laundry",
+  "back-of-house": "Back of house",
+  "guest-services": "Guest services",
+  "health-safety": "Health & safety",
+  "parking-transport": "Parking & transport",
+  "outdoor-leisure": "Outdoor & leisure",
+  "engineering-plant": "Engineering & plant",
 };
 
 export const assetCategoryLabels: Record<AssetCategory, string> = {
@@ -106,6 +121,8 @@ export const assetCategoryLabels: Record<AssetCategory, string> = {
   equipment: "Equipment",
   "medical-furniture": "Medical furniture",
   "non-medical-furniture": "Non-medical furniture",
+  "guest-furniture": "Guest room furniture",
+  "public-furniture": "Public & staff furniture",
   machine: "Machines",
 };
 
@@ -114,7 +131,14 @@ export const assetCategoryDescriptions: Record<AssetCategory, string> = {
   equipment: "Major clinical, imaging, surgical, therapeutic and lab systems.",
   "medical-furniture": "Beds, stretchers, treatment chairs, carts and clinical storage.",
   "non-medical-furniture": "Office, waiting, meeting and staff furniture.",
+  "guest-furniture": "Beds, casegoods, seating, softgoods and in-room fit-out.",
+  "public-furniture": "Lobby, restaurant, meeting, office and outdoor furniture.",
   machine: "Plant, HVAC, electrical, IT, laundry and back-of-house machinery.",
+};
+
+export const plannerVerticalLabels: Record<PlannerVertical, string> = {
+  healthcare: "Hospital planner",
+  hospitality: "Hotel planner",
 };
 
 export const assetInstallationLabels: Record<AssetInstallation, string> = {

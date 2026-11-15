@@ -34,14 +34,13 @@ export function BillOfMaterials({ rows }: BillOfMaterialsProps) {
 
       {rows.length === 0 ? (
         <p className="mt-6 rounded-2xl border border-dashed border-border bg-muted p-6 text-sm text-muted-foreground">
-          The bill of materials is empty. Add rooms and equipment above to build
-          it.
+          The bill of materials is empty. Add rooms and items above to build it.
         </p>
       ) : (
         <div className="mt-6 overflow-x-auto rounded-2xl border border-border bg-card">
           <table className="w-full min-w-[46rem] border-collapse text-sm">
             <caption className="sr-only">
-              Aggregated equipment and furniture list with quantities and costs
+              Aggregated item list with quantities and costs
             </caption>
             <thead>
               <tr className="border-b border-border">

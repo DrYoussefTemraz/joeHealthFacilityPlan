@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 import { assetCategoryLabels } from "@/components/labels";
 import { formatCurrency } from "@/lib/format";
 import {
+  getAssetCategoryOrder,
   getCompatibleAssets,
   groupAssetsByCategory,
   type RecommendedAssetView,
@@ -49,8 +50,12 @@ export function AssetPicker({
   }, [compatibleAssets, query]);
 
   const groups = useMemo(
-    () => groupAssetsByCategory(filteredAssets),
-    [filteredAssets],
+    () =>
+      groupAssetsByCategory(
+        filteredAssets,
+        getAssetCategoryOrder(catalog.vertical),
+      ),
+    [filteredAssets, catalog.vertical],
   );
 
   const missingRecommended = recommended.filter(

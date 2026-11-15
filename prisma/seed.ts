@@ -3,7 +3,10 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 
 import { facilityFixtures } from "../src/lib/fixtures/facilities";
-import { plannerCatalog } from "../src/lib/planner-data";
+import {
+  hotelPlannerCatalog,
+  plannerCatalog,
+} from "../src/lib/planner-data";
 import type { AssetTemplate } from "../src/lib/types";
 
 const prisma = new PrismaClient();
@@ -289,8 +292,20 @@ async function seedFacilities() {
 }
 
 async function seedCatalog() {
-  const { assetTemplates, roomTemplates, buildingPresets } = plannerCatalog;
-  const priceOverlay = loadPriceOverlay(assetTemplates);
+  const catalogs = [plannerCatalog, hotelPlannerCatalog];
+  const allAssets = catalogs.flatMap((catalog) => catalog.assetTemplates);
+  const priceOverlay = loadPriceOverlay(allAssets);
+
+  for (const catalog of catalogs) {
+    for (const room of catalog.roomTemplates) {
+      const assetIds = room.recommendedSetup.map((item) => item.assetId);
+      if (new Set(assetIds).size !== assetIds.length) {
+        throw new Error(
+          `Room "${room.id}" lists the same recommended asset more than once`,
+        );
+      }
+    }
+  }
 
   await prisma.$transaction(
     async (tx) => {
@@ -304,90 +319,98 @@ async function seedCatalog() {
       await tx.roomTemplate.deleteMany();
       await tx.assetTemplate.deleteMany();
 
-      await tx.assetTemplate.createMany({
-        data: assetTemplates.map((asset, index) => {
-          const price = priceOverlay.get(asset.id);
-          if (!price) {
-            throw new Error(`Missing price overlay for asset "${asset.id}"`);
-          }
+      for (const catalog of catalogs) {
+        const { vertical, assetTemplates, roomTemplates, buildingPresets } =
+          catalog;
 
-          return {
-            id: asset.id,
-            name: asset.name,
-            category: asset.category,
-            description: asset.description,
-            unitCostCents: price.unitCostCents,
-            priceConfidence: price.priceConfidence,
-            priceSourceType: price.priceSourceType,
-            priceSourceTitle: price.priceSourceTitle,
-            priceSourcePublisher: price.priceSourcePublisher,
-            priceSourceUrl: price.priceSourceUrl,
-            priceCheckedAt: price.priceCheckedAt,
-            priceBasis: price.priceBasis,
-            utilities: asset.utilities,
-            roomCategories:
-              asset.roomCategories === "all" ? [] : asset.roomCategories,
-            appliesToAllRooms: asset.roomCategories === "all",
-            installation: asset.installation,
-            sortOrder: index,
-          };
-        }),
-      });
+        await tx.assetTemplate.createMany({
+          data: assetTemplates.map((asset, index) => {
+            const price = priceOverlay.get(asset.id);
+            if (!price) {
+              throw new Error(`Missing price overlay for asset "${asset.id}"`);
+            }
 
-      await tx.roomTemplate.createMany({
-        data: roomTemplates.map((room, index) => ({
-          id: room.id,
-          name: room.name,
-          category: room.category,
-          description: room.description,
-          defaultAreaSqm: room.defaultAreaSqm,
-          patientBeds: room.patientBeds,
-          utilities: room.utilities,
-          sortOrder: index,
-        })),
-      });
+            return {
+              id: asset.id,
+              vertical,
+              name: asset.name,
+              category: asset.category,
+              description: asset.description,
+              unitCostCents: price.unitCostCents,
+              priceConfidence: price.priceConfidence,
+              priceSourceType: price.priceSourceType,
+              priceSourceTitle: price.priceSourceTitle,
+              priceSourcePublisher: price.priceSourcePublisher,
+              priceSourceUrl: price.priceSourceUrl,
+              priceCheckedAt: price.priceCheckedAt,
+              priceBasis: price.priceBasis,
+              utilities: asset.utilities,
+              roomCategories:
+                asset.roomCategories === "all" ? [] : asset.roomCategories,
+              appliesToAllRooms: asset.roomCategories === "all",
+              installation: asset.installation,
+              sortOrder: index,
+            };
+          }),
+        });
 
-      await tx.recommendedAsset.createMany({
-        data: roomTemplates.flatMap((room) =>
-          room.recommendedSetup.map((asset, index) => ({
-            roomId: room.id,
-            assetId: asset.assetId,
-            quantity: asset.quantity,
+        await tx.roomTemplate.createMany({
+          data: roomTemplates.map((room, index) => ({
+            id: room.id,
+            vertical,
+            name: room.name,
+            category: room.category,
+            description: room.description,
+            defaultAreaSqm: room.defaultAreaSqm,
+            patientBeds: room.patientBeds,
+            utilities: room.utilities,
             sortOrder: index,
           })),
-        ),
-      });
-
-      for (const [presetIndex, preset] of buildingPresets.entries()) {
-        await tx.buildingPreset.create({
-          data: {
-            id: preset.id,
-            name: preset.name,
-            description: preset.description,
-            sortOrder: presetIndex,
-            floors: {
-              create: preset.floors.map((name, index) => ({ name, index })),
-            },
-            rooms: {
-              create: preset.rooms.map((room, roomIndex) => ({
-                floorIndex: room.floorIndex,
-                sortOrder: roomIndex,
-                template: { connect: { id: room.templateId } },
-                ...(room.assets?.length
-                  ? {
-                      assets: {
-                        create: room.assets.map((asset, assetIndex) => ({
-                          quantity: asset.quantity,
-                          sortOrder: assetIndex,
-                          asset: { connect: { id: asset.assetId } },
-                        })),
-                      },
-                    }
-                  : {}),
-              })),
-            },
-          },
         });
+
+        await tx.recommendedAsset.createMany({
+          data: roomTemplates.flatMap((room) =>
+            room.recommendedSetup.map((asset, index) => ({
+              roomId: room.id,
+              assetId: asset.assetId,
+              quantity: asset.quantity,
+              sortOrder: index,
+            })),
+          ),
+        });
+
+        for (const [presetIndex, preset] of buildingPresets.entries()) {
+          await tx.buildingPreset.create({
+            data: {
+              id: preset.id,
+              vertical,
+              name: preset.name,
+              description: preset.description,
+              sortOrder: presetIndex,
+              floors: {
+                create: preset.floors.map((name, index) => ({ name, index })),
+              },
+              rooms: {
+                create: preset.rooms.map((room, roomIndex) => ({
+                  floorIndex: room.floorIndex,
+                  sortOrder: roomIndex,
+                  template: { connect: { id: room.templateId } },
+                  ...(room.assets?.length
+                    ? {
+                        assets: {
+                          create: room.assets.map((asset, assetIndex) => ({
+                            quantity: asset.quantity,
+                            sortOrder: assetIndex,
+                            asset: { connect: { id: asset.assetId } },
+                          })),
+                        },
+                      }
+                    : {}),
+                })),
+              },
+            },
+          });
+        }
       }
     },
     { maxWait: 10_000, timeout: 120_000 },

@@ -25,7 +25,6 @@ import {
 import { FloorCard } from "./floor-card";
 import { PlannerSummary } from "./planner-summary";
 
-const STORAGE_KEY = "joehealthplan.virtual-building.v1";
 const STORAGE_VERSION = 1;
 
 function createId(prefix: string): string {
@@ -49,12 +48,23 @@ function isBuildingPlan(value: unknown): value is BuildingPlan {
 
 type BuildingPlannerProps = {
   catalog: PlannerCatalog;
+  /** Browser storage key, separate for each planner vertical. */
+  storageKey: string;
+  /** Name used for a new or reset building. */
+  defaultBuildingName: string;
+  /** Vertical-specific preliminary-estimate disclaimer. */
+  disclaimer: string;
 };
 
-export function BuildingPlanner({ catalog }: BuildingPlannerProps) {
+export function BuildingPlanner({
+  catalog,
+  storageKey,
+  defaultBuildingName,
+  disclaimer,
+}: BuildingPlannerProps) {
   const [building, dispatch] = useReducer(
     buildingReducer,
-    undefined,
+    defaultBuildingName,
     createEmptyBuilding,
   );
   const [hydrated, setHydrated] = useState(false);
@@ -72,7 +82,7 @@ export function BuildingPlanner({ catalog }: BuildingPlannerProps) {
 
   useEffect(() => {
     try {
-      const raw = window.localStorage.getItem(STORAGE_KEY);
+      const raw = window.localStorage.getItem(storageKey);
       if (raw) {
         const parsed = JSON.parse(raw) as {
           version?: number;
@@ -90,7 +100,7 @@ export function BuildingPlanner({ catalog }: BuildingPlannerProps) {
     } finally {
       setHydrated(true);
     }
-  }, []);
+  }, [storageKey]);
 
   useEffect(() => {
     if (!hydrated) {
@@ -99,13 +109,13 @@ export function BuildingPlanner({ catalog }: BuildingPlannerProps) {
 
     try {
       window.localStorage.setItem(
-        STORAGE_KEY,
+        storageKey,
         JSON.stringify({ version: STORAGE_VERSION, building }),
       );
     } catch {
       // Storage can be unavailable in private browsing; the tool still works.
     }
-  }, [building, hydrated]);
+  }, [building, hydrated, storageKey]);
 
   function addRoom(floor: Floor, templateId: string) {
     const template = roomMap.get(templateId);
@@ -311,7 +321,7 @@ export function BuildingPlanner({ catalog }: BuildingPlannerProps) {
     ) {
       return;
     }
-    dispatch({ type: "reset" });
+    dispatch({ type: "reset", name: defaultBuildingName });
     setStatus("Building reset.");
   }
 
@@ -368,8 +378,7 @@ export function BuildingPlanner({ catalog }: BuildingPlannerProps) {
           {hydrated
             ? "Autosaved to this browser."
             : "Loading any saved building…"}{" "}
-          Illustrative catalog with preliminary cost estimates — not for
-          procurement or clinical guidance.
+          {disclaimer}
         </p>
       </div>
 

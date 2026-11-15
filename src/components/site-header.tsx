@@ -4,7 +4,8 @@ import { Logo } from "./logo";
 
 const navLinks = [
   { href: "/facilities", label: "Facilities" },
-  { href: "/planner", label: "Planner" },
+  { href: "/planner", label: "Hospital planner" },
+  { href: "/planner/hotels", label: "Hotel planner" },
   { href: "/#roadmap", label: "Roadmap" },
   { href: "/contact", label: "Contact" },
 ];

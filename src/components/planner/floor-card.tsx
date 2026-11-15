@@ -4,7 +4,7 @@ import { useMemo } from "react";
 
 import { roomCategoryLabels } from "@/components/labels";
 import { formatArea } from "@/lib/format";
-import { createRoomMap, ROOM_CATEGORY_ORDER } from "@/lib/planner";
+import { createRoomMap, getRoomCategoryOrder } from "@/lib/planner";
 import type { Floor, PlacedRoom, PlannerCatalog } from "@/lib/types";
 
 import { RoomCard } from "./room-card";
@@ -48,7 +48,7 @@ export function FloorCard({
 }: FloorCardProps) {
   const roomMap = useMemo(() => createRoomMap(catalog), [catalog]);
 
-  const groups = ROOM_CATEGORY_ORDER.map((category) => ({
+  const groups = getRoomCategoryOrder(catalog.vertical).map((category) => ({
     category,
     rooms: catalog.roomTemplates
       .filter((room) => room.category === category)
@@ -116,8 +116,7 @@ export function FloorCard({
 
       {rooms.length === 0 ? (
         <p className="mt-5 rounded-xl border border-dashed border-border bg-muted/50 p-6 text-sm text-muted-foreground">
-          This floor is empty. Choose a hospital room type from the dropdown to
-          start.
+          This floor is empty. Choose a room type from the dropdown to start.
         </p>
       ) : (
         <div className="mt-5 grid gap-4 xl:grid-cols-2">

@@ -247,3 +247,186 @@ waiting-bench,Waiting bench,non-medical-furniture,support-logistics|ambulatory|e
 waiting-chair-set,Waiting chair set,non-medical-furniture,support-logistics|ambulatory|emergency-trauma,fixed,650.00,Set of four linked waiting chairs with arms.
 waste-bin,Waste bin,non-medical-furniture,all,mobile,35.00,Foot-pedal waste bin with removable liner.
 whiteboard,Whiteboard,non-medical-furniture,administrative-staff|support-logistics|pharmacy|laboratory-pathology,wall-mounted,120.00,Magnetic whiteboard with marker tray.
+hotel-guest-smart-tv,"Guest room smart TV, 55-inch",device,guest-rooms|suites,wall-mounted,650.00,4K smart TV with streaming apps and hotel mode.
+hotel-guest-tablet,Guest services tablet,device,guest-rooms|suites,wall-mounted,280.00,"In-room tablet for services, check-out and room controls."
+hotel-smart-thermostat,Smart room thermostat,device,guest-rooms|suites|meeting-events,wall-mounted,220.00,Guest-controlled thermostat with occupancy setback.
+hotel-smart-door-lock,RFID smart door lock,device,guest-rooms|suites,fixed,450.00,Contactless key-card lock with audit trail and mobile-key option.
+hotel-in-room-safe,In-room laptop safe,device,guest-rooms|suites,fixed,240.00,Digital safe sized for a laptop and guest valuables.
+hotel-minibar-sensor,Minibar consumption sensor,device,guest-rooms|suites,fixed,160.00,Shelf sensor that posts minibar charges to the guest folio.
+hotel-bedside-charging-hub,Bedside charging hub,device,guest-rooms|suites,wall-mounted,70.00,USB-A/USB-C charging point with integrated reading light.
+hotel-wifi-access-point,Wi-Fi 6 access point,device,all,ceiling-mounted,520.00,Ceiling access point for guest and staff networks.
+hotel-ip-desk-phone,IP desk phone,device,guest-rooms|suites|front-office|administrative-staff|back-of-house|housekeeping-laundry|food-beverage,mobile,110.00,"VoIP handset for guest rooms, offices and back-of-house desks."
+hotel-pms-workstation,PMS front-desk workstation,device,front-office,fixed,1900.00,Property-management workstation with dual screens and card reader.
+hotel-pms-licence,PMS software licence,device,front-office,fixed,7500.00,"Initial property-management-system licence, configuration and interfaces."
+hotel-pos-terminal,Point-of-sale terminal,device,front-office|food-beverage|meeting-events|wellness-leisure|guest-services|outdoor-leisure,mobile,1300.00,Touch POS terminal with card reader for F&B and retail outlets.
+hotel-key-card-encoder,Key card encoder,device,front-office,fixed,950.00,Front-desk encoder that issues and re-keys RFID guest cards.
+hotel-self-checkin-kiosk,Self-service check-in kiosk,device,front-office,fixed,5500.00,"Kiosk for contactless check-in, key issue and folio payment."
+hotel-housekeeping-handheld,Housekeeping handheld terminal,device,housekeeping-laundry|guest-rooms,mobile,480.00,"Rugged handheld for room status, tasks and linen requests."
+hotel-two-way-radio,Two-way radio,device,all,mobile,380.00,"Site radio for operations, security and engineering teams."
+hotel-cctv-camera,IP CCTV camera,device,front-office|food-beverage|meeting-events|wellness-leisure|guest-services|outdoor-leisure|back-of-house|health-safety|parking-transport|housekeeping-laundry,ceiling-mounted,480.00,"Dome or bullet camera covering public, back-of-house and perimeter areas."
+hotel-monitor-wall,Security monitor wall,device,health-safety|front-office|engineering-plant|meeting-events,wall-mounted,2200.00,"Four-screen video wall for reception, security, meetings and engineering."
+hotel-access-control-reader,Access control reader,device,administrative-staff|back-of-house|housekeeping-laundry|engineering-plant|health-safety|front-office,wall-mounted,650.00,Card and PIN reader for staff-only and plant-room doors.
+hotel-fire-alarm-panel,Addressable fire alarm panel,device,health-safety|back-of-house|engineering-plant,wall-mounted,6500.00,Addressable detection panel with voice evacuation interfaces.
+hotel-av-control-system,Meeting room AV control system,device,meeting-events,fixed,4800.00,"Touch control and switching for projectors, audio and lighting scenes."
+hotel-digital-signage,Digital signage display,device,front-office|food-beverage|meeting-events|wellness-leisure|guest-services|outdoor-leisure|administrative-staff,wall-mounted,1900.00,"Commercial display for wayfinding, menus and event schedules."
+hotel-energy-management-controller,Guest room energy controller,device,engineering-plant|guest-rooms,fixed,2600.00,"Room controller that links door, occupancy and HVAC for energy savings."
+hotel-occupancy-sensor,Occupancy and door sensor,device,guest-rooms|suites,ceiling-mounted,140.00,"Ceiling sensor for occupancy, door status and energy setback."
+hotel-pool-safety-alarm,Pool safety alarm,device,wellness-leisure|outdoor-leisure,wall-mounted,1800.00,Door and gate alarm for pool areas outside supervised hours.
+hotel-parking-ticket-kiosk,Parking ticket kiosk,device,parking-transport,fixed,4500.00,Entry and pay-station kiosk with barrier and payment integration.
+hotel-defibrillator,Automated external defibrillator,device,health-safety|wellness-leisure,wall-mounted,1800.00,Public-access AED with adult and paediatric pads.
+hotel-time-clock,Staff time clock,device,administrative-staff|back-of-house,wall-mounted,650.00,Biometric or card time clock for rosters and payroll.
+hotel-minibar-fridge,Guest minibar fridge,equipment,guest-rooms|suites,fixed,480.00,Silent absorption minibar refrigerator with lockable door.
+hotel-guest-coffee-machine,Guest coffee machine,equipment,guest-rooms|suites,mobile,380.00,Capsule or pod coffee machine for the in-room beverage station.
+hotel-kettle,Electric kettle,equipment,guest-rooms|suites,mobile,70.00,Stainless kettle for tea and coffee service.
+hotel-hairdryer,Wall-mounted hairdryer,equipment,guest-rooms|suites,wall-mounted,80.00,Commercial hairdryer with shaver-socket isolation.
+hotel-ironing-board,Iron and ironing board,equipment,guest-rooms|suites|housekeeping-laundry|guest-services,mobile,130.00,Compact ironing set for guest rooms and valet areas.
+hotel-accessible-bathroom-kit,Accessible bathroom kit,equipment,guest-rooms|suites,wall-mounted,850.00,"Grab bars, fold-down seat, taller WC and accessible fittings."
+hotel-cookware-set,Kitchenette cookware set,equipment,guest-rooms|suites,mobile,120.00,"Pots, pans, crockery and utensils for an extended-stay kitchenette."
+hotel-bell-cart,Bell luggage cart,equipment,front-office,mobile,700.00,Padded brass or aluminium luggage cart for the bell team.
+hotel-housekeeping-cart,Housekeeping cart,equipment,housekeeping-laundry|guest-rooms,mobile,900.00,Lockable housekeeping trolley with linen and waste compartments.
+hotel-laundry-cart,Linen cart,equipment,housekeeping-laundry|guest-services,mobile,580.00,Canvas or polyethylene cart for clean and soiled linen.
+hotel-room-service-cart,Room service cart,equipment,food-beverage|kitchen,mobile,1200.00,Heated room-service trolley with tableware and linen storage.
+hotel-combi-oven,10-tray combi oven,equipment,kitchen,fixed,18000.00,Combination steam and convection oven for the main cooking line.
+hotel-range-six-burner,Six-burner range with oven,equipment,kitchen,fixed,7800.00,Heavy-duty gas range and oven for à la carte production.
+hotel-convection-oven,Convection oven,equipment,kitchen,fixed,8500.00,"Stackable convection oven for roasting, baking and regeneration."
+hotel-deep-fryer,Twin-tank deep fryer,equipment,kitchen,fixed,5200.00,Twin-basket fryer with filtration and fire-suppression interface.
+hotel-walk-in-cold-room,Walk-in cold room,equipment,kitchen|back-of-house,fixed,28000.00,"Modular cold room for produce, dairy and prepared food."
+hotel-walk-in-freezer,Walk-in freezer,equipment,kitchen|back-of-house,fixed,32000.00,Modular freezer room for frozen stock and ice cream.
+hotel-blast-chiller,Blast chiller,equipment,kitchen,fixed,19000.00,Rapid chiller and shock freezer for cook-chill production.
+hotel-undercounter-fridge,Undercounter refrigerator,equipment,kitchen|food-beverage|administrative-staff|outdoor-leisure,mobile,2300.00,Stainless undercounter fridge for prep and service stations.
+hotel-pass-through-dishwasher,Pass-through dishwasher,equipment,kitchen,fixed,9500.00,High-temperature pass-through warewasher for the main dishwash.
+hotel-glasswasher,Bar glasswasher,equipment,food-beverage|kitchen,fixed,6200.00,Compact glasswasher for bar and café service.
+hotel-exhaust-hood,Kitchen exhaust hood,equipment,kitchen,ceiling-mounted,14500.00,Stainless extract hood with grease filters and fire suppression.
+hotel-planetary-mixer,40-litre planetary mixer,equipment,kitchen,fixed,8200.00,"Floor-standing mixer for pastry, bakery and sauce production."
+hotel-deck-oven,Bakery deck oven,equipment,kitchen,fixed,12500.00,"Two-deck steam oven for bread, viennoiserie and pastry."
+hotel-hot-holding-cabinet,Hot-holding cabinet,equipment,kitchen|food-beverage|meeting-events,mobile,3800.00,Mobile heated cabinet for banquet and room-service holding.
+hotel-ice-machine,"Ice machine, 300 kg/day",equipment,kitchen|food-beverage|outdoor-leisure,fixed,4800.00,Modular ice maker with storage bin for bars and banquet service.
+hotel-bar-dispense-system,Bar dispense and tap system,equipment,food-beverage|outdoor-leisure,fixed,6800.00,"Under-bar dispense rail, taps and chilled lines."
+hotel-slicer,Meat slicer,equipment,kitchen,mobile,1800.00,Gravity-feed slicer for cold kitchen and buffet service.
+hotel-food-processor,Food processor,equipment,kitchen,mobile,950.00,Commercial cutter-mixer for prep and pastry.
+hotel-stainless-worktable,Stainless worktable,equipment,kitchen,fixed,1800.00,1.8 m stainless prep table with undershelf.
+hotel-kitchen-shelving,Stainless shelving unit,equipment,kitchen|housekeeping-laundry|back-of-house,fixed,1200.00,Four-tier stainless or epoxy shelving for dry store and prep.
+hotel-preparation-sink,Stainless preparation sink,equipment,kitchen,fixed,950.00,Double-bowl prep sink with drainboard.
+hotel-commercial-espresso-machine,Commercial espresso machine,equipment,food-beverage|kitchen|administrative-staff,fixed,8500.00,Two-group espresso machine with grinder and water treatment.
+hotel-display-case,Refrigerated display case,equipment,food-beverage|kitchen,fixed,2500.00,Chilled patisserie and grab-and-go display case.
+hotel-commercial-washer,Commercial washer-extractor,equipment,housekeeping-laundry|guest-services,fixed,14500.00,60 kg soft-mount washer-extractor for on-premise laundry.
+hotel-commercial-dryer,Commercial tumble dryer,equipment,housekeeping-laundry|guest-services,fixed,11500.00,80 kg gas or steam tumble dryer with moisture sensing.
+hotel-flatwork-ironer,Flatwork ironer,equipment,housekeeping-laundry,fixed,9500.00,"Single-roll ironer for sheets, duvets and table linen."
+hotel-linen-folding-machine,Linen folding machine,equipment,housekeeping-laundry,fixed,12500.00,Automatic sheet and towel folder for the laundry line.
+hotel-floor-scrubber,Walk-behind floor scrubber,equipment,housekeeping-laundry|back-of-house|front-office,mobile,6800.00,"Battery floor scrubber for lobby, corridors and F&B areas."
+hotel-commercial-vacuum,Commercial vacuum,equipment,all,mobile,650.00,Heavy-duty canister vacuum for housekeeping and public areas.
+hotel-treadmill,Commercial treadmill,equipment,wellness-leisure,mobile,7800.00,Cardio treadmill with entertainment console and asset tracking.
+hotel-elliptical,Commercial elliptical,equipment,wellness-leisure,mobile,5800.00,Low-impact cross-trainer for the fitness centre.
+hotel-strength-trainer,Multi-station strength trainer,equipment,wellness-leisure,mobile,4800.00,Dual-station resistance machine with weight stack.
+hotel-free-weight-rack,Free-weight rack and dumbbells,equipment,wellness-leisure,mobile,3200.00,Dumbbell rack with a 2.5–50 kg set.
+hotel-spa-treatment-table,Spa treatment table,equipment,wellness-leisure,mobile,3400.00,Electric massage table with face cradle and linen.
+hotel-sauna-heater,Sauna heater,equipment,wellness-leisure,fixed,6500.00,Commercial sauna heater with controls and safety cut-out.
+hotel-steam-generator,Steam room generator,equipment,wellness-leisure,fixed,8500.00,Steam generator with aroma pump and room controls.
+hotel-pool-filtration,Pool filtration system,equipment,wellness-leisure|outdoor-leisure,fixed,45000.00,Sand or glass-media filtration with dosing and backwash controls.
+hotel-pool-heat-pump,Pool heat pump,equipment,wellness-leisure|outdoor-leisure,fixed,18000.00,Air-source heat pump for year-round pool temperature.
+hotel-projector,Meeting room projector,equipment,meeting-events|administrative-staff,ceiling-mounted,3800.00,"10,000-lumen laser projector for meeting and breakout rooms."
+hotel-led-video-wall,LED video wall,equipment,meeting-events|front-office,wall-mounted,24000.00,"Fine-pitch LED wall for ballroom, lobby or boardroom."
+hotel-stage-lighting,Stage lighting kit,equipment,meeting-events,ceiling-mounted,8500.00,DMX stage wash and spot package for the ballroom.
+hotel-sound-system,Meeting room sound system,equipment,meeting-events|administrative-staff,fixed,12500.00,"Amplifiers, speakers and wireless microphone receivers."
+hotel-conference-mic,Conference microphone system,equipment,meeting-events,fixed,6800.00,Delegate microphone system for boardrooms and meeting rooms.
+hotel-av-rack,AV equipment rack,equipment,meeting-events,fixed,1800.00,"Ventilated rack for AV switchers, amplifiers and control gear."
+hotel-pallet-truck,Pallet truck,equipment,back-of-house,mobile,450.00,Manual pallet truck for receiving and stores.
+hotel-king-linen-set,King bed linen set,equipment,guest-rooms|suites|housekeeping-laundry,mobile,180.00,"Duvet cover, fitted sheet, pillowcases and protector."
+hotel-queen-linen-set,Queen bed linen set,equipment,guest-rooms|suites|housekeeping-laundry,mobile,150.00,"Duvet cover, fitted sheet, pillowcases and protector."
+hotel-twin-linen-set,Twin bed linen set,equipment,guest-rooms|suites|housekeeping-laundry,mobile,120.00,"Single duvet cover, fitted sheet, pillowcases and protector."
+hotel-towel-set,Towel set,equipment,guest-rooms|suites|housekeeping-laundry|wellness-leisure,mobile,80.00,"Bath, hand and face towels plus bath mat."
+hotel-bath-amenity-set,Bath amenity set,equipment,guest-rooms|suites|wellness-leisure,mobile,45.00,"Refillable dispensers, soap, shower cap and vanity kit."
+hotel-hanger-set,Hanger set,equipment,guest-rooms|suites|housekeeping-laundry,mobile,30.00,Ten mixed hangers with security rings.
+hotel-waste-bin,Waste bin,equipment,all,mobile,40.00,Fire-rated bin with removable liner.
+hotel-king-bed-platform,King bed platform and frame,guest-furniture,guest-rooms|suites,fixed,1700.00,Commercial king bed base with reinforced frame.
+hotel-queen-bed-platform,Queen bed platform and frame,guest-furniture,guest-rooms|suites,fixed,1500.00,Commercial queen bed base with reinforced frame.
+hotel-twin-bed-platform,Twin bed platform and frame,guest-furniture,guest-rooms|suites,fixed,1450.00,Commercial single bed base for twin and family rooms.
+hotel-king-mattress,King mattress,guest-furniture,guest-rooms|suites,mobile,1300.00,Contract king mattress with removable cover.
+hotel-queen-mattress,Queen mattress,guest-furniture,guest-rooms|suites,mobile,1050.00,Contract queen mattress with removable cover.
+hotel-twin-mattress,Twin mattress,guest-furniture,guest-rooms|suites,mobile,950.00,Contract single mattress with removable cover.
+hotel-headboard,Upholstered headboard,guest-furniture,guest-rooms|suites,wall-mounted,850.00,Contract-grade upholstered headboard with wall fixing.
+hotel-nightstand,Bedside nightstand,guest-furniture,guest-rooms|suites,fixed,480.00,Bedside table with drawer and integrated power.
+hotel-writing-desk,Guest room writing desk,guest-furniture,guest-rooms|suites,fixed,750.00,Desk with cable management and power/data modules.
+hotel-desk-chair,Upholstered desk chair,guest-furniture,guest-rooms|suites,mobile,380.00,Contract desk chair with commercial-grade upholstery.
+hotel-wardrobe,Built-in wardrobe,guest-furniture,guest-rooms|suites,fixed,1300.00,"Wardrobe with hanging rail, shelves and safe housing."
+hotel-media-console,Media console,guest-furniture,guest-rooms|suites,fixed,950.00,TV console with storage and cable management.
+hotel-minibar-cabinet,Minibar cabinet,guest-furniture,guest-rooms|suites,fixed,750.00,Ventilated cabinet housing the minibar refrigerator.
+hotel-luggage-bench,Luggage bench,guest-furniture,guest-rooms|suites,fixed,420.00,Upholstered luggage bench with storage base.
+hotel-lounge-chair,Lounge chair,guest-furniture,guest-rooms|suites,mobile,950.00,Contract lounge chair for the in-room seating zone.
+hotel-sofa-bed,Sofa bed,guest-furniture,guest-rooms|suites,mobile,1900.00,Queen sofa bed for suites and family rooms.
+hotel-coffee-table,Coffee table,guest-furniture,guest-rooms|suites,mobile,480.00,Low table for the in-room lounge area.
+hotel-dining-table,Suite dining table,guest-furniture,guest-rooms|suites,mobile,950.00,Compact dining or work table for suites and apartments.
+hotel-floor-lamp,Floor lamp,guest-furniture,guest-rooms|suites,mobile,280.00,Contract floor lamp for the seating zone.
+hotel-table-lamp,Bedside table lamp,guest-furniture,guest-rooms|suites,mobile,160.00,Bedside lamp with integrated USB charging.
+hotel-full-length-mirror,Full-length mirror,guest-furniture,guest-rooms|suites,wall-mounted,320.00,Security-backed full-length mirror.
+hotel-blackout-curtain,Blackout curtain,guest-furniture,guest-rooms|suites,ceiling-mounted,650.00,Contract blackout drape with track and lining.
+hotel-sheer-curtain,Sheer curtain,guest-furniture,guest-rooms|suites,ceiling-mounted,380.00,Sheer day curtain on a shared track.
+hotel-wall-art,Framed wall art,guest-furniture,guest-rooms|suites|front-office|food-beverage|meeting-events|wellness-leisure|guest-services|outdoor-leisure,wall-mounted,420.00,Framed artwork or mirror for guest and public areas.
+hotel-crib,Infant crib,guest-furniture,guest-rooms|suites,mobile,450.00,Compliant infant crib with mattress and linen.
+hotel-rollaway-bed,Rollaway bed,guest-furniture,guest-rooms|suites,mobile,550.00,Folding rollaway bed for extra guests.
+hotel-kitchenette-unit,Extended-stay kitchenette,guest-furniture,guest-rooms|suites,fixed,4500.00,"Compact kitchenette with sink, hob, fridge and storage."
+hotel-lobby-sofa,Lobby sofa,public-furniture,front-office|food-beverage|meeting-events|wellness-leisure|guest-services|outdoor-leisure,mobile,2900.00,Contract three-seat sofa for lobby and lounge areas.
+hotel-lobby-armchair,Lobby armchair,public-furniture,front-office|food-beverage|meeting-events|wellness-leisure|guest-services|outdoor-leisure,mobile,1300.00,Contract armchair for lobby and pre-function areas.
+hotel-lobby-coffee-table,Lobby coffee table,public-furniture,front-office|food-beverage|meeting-events|wellness-leisure|guest-services|outdoor-leisure,mobile,950.00,Low table for lobby seating groups.
+hotel-reception-desk,Reception desk,public-furniture,front-office,fixed,12500.00,Feature reception desk with workstations and cable management.
+hotel-concierge-desk,Concierge desk,public-furniture,front-office,fixed,5200.00,Concierge counter with guest-facing worktop.
+hotel-bell-stand,Bell stand,public-furniture,front-office,fixed,3800.00,Bell and luggage stand at the entrance.
+hotel-valet-desk,Valet desk,public-furniture,front-office|parking-transport,fixed,3800.00,Valet and transport desk with key storage.
+hotel-restaurant-chair,Restaurant chair,public-furniture,food-beverage|meeting-events,mobile,380.00,Contract dining chair for restaurants and banquets.
+hotel-restaurant-table,Restaurant table,public-furniture,food-beverage|meeting-events,mobile,750.00,Two- or four-cover dining table with commercial finish.
+hotel-booth-seating,Booth seating,public-furniture,food-beverage,fixed,3800.00,Fixed banquette seating for restaurant and bar areas.
+hotel-bar-stool,Bar stool,public-furniture,food-beverage|outdoor-leisure,mobile,320.00,Contract bar-height stool.
+hotel-bar-counter,Bar counter and back bar,public-furniture,food-beverage|outdoor-leisure,fixed,8500.00,Bar counter with back-bar shelving and glass storage.
+hotel-banquet-round-table,Banquet round table,public-furniture,meeting-events,mobile,480.00,1.8 m folding round banquet table.
+hotel-banquet-chair,Banquet chair,public-furniture,meeting-events,mobile,190.00,Stacking banquet chair with contract fabric.
+hotel-meeting-table,Meeting table,public-furniture,meeting-events|administrative-staff|guest-services|front-office,mobile,2600.00,Modular meeting table with power and data modules.
+hotel-boardroom-table,Boardroom table,public-furniture,meeting-events,fixed,6500.00,Fixed boardroom table with integrated AV connectivity.
+hotel-av-console,AV operator console,public-furniture,meeting-events,fixed,2600.00,Operator desk for the AV control room.
+hotel-office-desk,Office desk,public-furniture,administrative-staff|back-of-house|housekeeping-laundry|health-safety|guest-services,mobile,850.00,Staff workstation with cable tray.
+hotel-office-chair,Ergonomic office chair,public-furniture,administrative-staff|back-of-house|housekeeping-laundry|health-safety|meeting-events|parking-transport|front-office|guest-services,mobile,480.00,Adjustable task chair for offices and back-of-house.
+hotel-filing-cabinet,Filing cabinet,public-furniture,administrative-staff|back-of-house|housekeeping-laundry,mobile,380.00,Lockable three-drawer filing cabinet.
+hotel-staff-locker,Staff locker,public-furniture,administrative-staff|housekeeping-laundry|health-safety|back-of-house,fixed,420.00,Two-tier staff locker with ventilation.
+hotel-changing-bench,Changing room bench,public-furniture,administrative-staff,fixed,350.00,Slatted bench for staff changing rooms.
+hotel-breakroom-table,Staff breakroom table,public-furniture,administrative-staff|back-of-house,mobile,950.00,Canteen table for the staff break room.
+hotel-breakroom-chair,Staff breakroom chair,public-furniture,administrative-staff|back-of-house,mobile,190.00,Stacking canteen chair.
+hotel-outdoor-lounge-set,Outdoor lounge set,public-furniture,outdoor-leisure|wellness-leisure,mobile,2600.00,"Weather-resistant sofa, chairs and low table."
+hotel-pool-lounger,Pool lounger,public-furniture,outdoor-leisure|wellness-leisure,mobile,480.00,Stackable sun lounger with weatherproof cushions.
+hotel-patio-umbrella,Patio umbrella,public-furniture,outdoor-leisure,mobile,380.00,Cantilever or centre-pole shade umbrella.
+hotel-retail-display,Retail display unit,public-furniture,guest-services|front-office,fixed,1300.00,Lockable display and merchandising unit for the gift shop.
+hotel-kids-play-unit,Kids club play unit,public-furniture,wellness-leisure,fixed,6500.00,Soft-play structure with safety surfacing.
+hotel-gym-reception-desk,Fitness reception desk,public-furniture,wellness-leisure,fixed,4200.00,Fitness centre reception and towel counter.
+hotel-spa-reception-desk,Spa reception desk,public-furniture,wellness-leisure,fixed,5200.00,Spa arrival desk with retail display.
+hotel-luggage-rack,Luggage rack,public-furniture,guest-rooms|suites|front-office,mobile,260.00,Foldable luggage rack for guest rooms and storage.
+hotel-safe-deposit-boxes,Safe deposit boxes,public-furniture,front-office,wall-mounted,3200.00,Guest safe deposit box bank for the front office.
+hotel-first-aid-cot,First aid cot,public-furniture,health-safety,mobile,850.00,Examination-style cot for the first aid room.
+hotel-first-aid-cabinet,First aid cabinet,public-furniture,health-safety,wall-mounted,450.00,Lockable first aid and medication cabinet.
+hotel-storage-cabinet,Storage cabinet,public-furniture,back-of-house,fixed,600.00,Lockable shelving cabinet for receiving and stores.
+hotel-recycling-bins,Recycling station,public-furniture,back-of-house|kitchen|front-office,mobile,900.00,Three-stream recycling and waste station.
+hotel-chiller,Air-cooled chiller,machine,engineering-plant,fixed,185000.00,400 kW air-cooled chiller with primary pumping.
+hotel-air-handling-unit,Air handling unit,machine,engineering-plant,fixed,48000.00,"AHU with filters, coils, fan and variable-speed drive."
+hotel-boiler,Hot water boiler,machine,engineering-plant,fixed,68000.00,Gas-fired condensing boiler for domestic hot water and heating.
+hotel-diesel-generator,Diesel standby generator,machine,engineering-plant,fixed,125000.00,800 kVA standby generator with automatic transfer switch.
+hotel-ups-system,UPS system,machine,engineering-plant|administrative-staff,fixed,28000.00,Modular uninterruptible power supply for IT and life-safety loads.
+hotel-switchgear,Main switchgear,machine,engineering-plant,fixed,78000.00,Main LV distribution board with metering and protection.
+hotel-water-softener,Water softener,machine,engineering-plant|housekeeping-laundry,fixed,8500.00,Duplex water softener for laundry and domestic hot water.
+hotel-water-pump-set,Domestic water pump set,machine,engineering-plant,fixed,12500.00,Variable-speed booster set for domestic water.
+hotel-building-water-tank,Domestic water storage tank,machine,engineering-plant,fixed,22000.00,Sectional GRP potable water storage tank.
+hotel-grease-trap,Kitchen grease trap,machine,kitchen|engineering-plant,fixed,9500.00,Below-slab or external grease interceptor for kitchen drainage.
+hotel-kitchen-extract-fan,Kitchen extract fan,machine,kitchen|engineering-plant,fixed,6500.00,Centrifugal extract fan for the kitchen exhaust riser.
+hotel-fire-pump,Fire pump set,machine,engineering-plant|health-safety,fixed,23000.00,Electric duty and diesel standby fire pumps.
+hotel-passenger-elevator,Passenger elevator,machine,front-office|guest-rooms,fixed,185000.00,"1,000 kg machine-room-less passenger lift with destination control."
+hotel-service-elevator,Service elevator,machine,back-of-house|housekeeping-laundry,fixed,165000.00,"1,600 kg service lift for housekeeping, linen and F&B."
+hotel-solar-hot-water,Solar hot water system,machine,engineering-plant,fixed,36000.00,Roof-mounted solar collector array with storage and controls.
+hotel-ev-charger,EV charging station,machine,parking-transport,fixed,8500.00,22 kW dual-port AC charging station.
+hotel-parking-barrier,Parking barrier gate,machine,parking-transport,fixed,6500.00,Automatic barrier with ticket or licence-plate integration.
+hotel-cctv-nvr,CCTV network video recorder,machine,health-safety,fixed,3800.00,32-channel NVR with 30-day storage.
+hotel-core-switch,Core network switch,machine,engineering-plant|administrative-staff,fixed,12500.00,48-port core switch with redundant power and VLAN support.
+hotel-server-rack,Server rack and UPS,machine,administrative-staff|front-office,fixed,16000.00,"42U server rack with cooling, UPS and cable management."
+hotel-pms-server,PMS server,machine,front-office,fixed,8500.00,On-premise property-management server and backup appliance.
+hotel-bms,Building management system,machine,engineering-plant,fixed,88000.00,"BMS head-end with HVAC, energy and plant monitoring."
+hotel-laundry-boiler,Laundry steam boiler,machine,housekeeping-laundry,fixed,19000.00,Dedicated steam boiler for the on-premise laundry.
+hotel-laundry-chemical-dosing,Laundry chemical dosing,machine,housekeeping-laundry,wall-mounted,5500.00,Automatic detergent and chemical dosing system.
+hotel-waste-compactor,Waste compactor,machine,back-of-house,fixed,18500.00,Static waste compactor with bin lift.
+hotel-dock-leveller,Dock leveller,machine,back-of-house,fixed,12500.00,Hydraulic dock leveller and shelter for deliveries.
+hotel-cold-room-condensing-unit,Cold room condensing unit,machine,kitchen|back-of-house,fixed,14500.00,Remote condensing unit for walk-in cold rooms.
+hotel-pool-circulation-pump,Pool circulation pump,machine,wellness-leisure|outdoor-leisure,fixed,6500.00,Duty and standby pool circulation pumps.

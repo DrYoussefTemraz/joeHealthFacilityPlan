@@ -9,6 +9,7 @@ import type {
   ContactDetail,
   Facility,
   PlannerCatalog,
+  PlannerVertical,
   PlanningCapability,
   ReviewRequestInput,
   RoomCategory,
@@ -288,20 +289,29 @@ export async function createReviewRequest(
  * mapper rebuilds the `PlannerCatalog` shape, including the `assets` override
  * that is only present on some preset rooms.
  */
-export async function getPlannerCatalog(): Promise<PlannerCatalog> {
+export async function getPlannerCatalog(
+  vertical: PlannerVertical = "healthcare",
+): Promise<PlannerCatalog> {
   "use cache";
   cacheLife("hours");
-  cacheTag("planner-catalog");
+  cacheTag("planner-catalog", `planner-catalog-${vertical}`);
+
+  const where = { vertical };
 
   const [assetRows, roomRows, presetRows] = await Promise.all([
-    prisma.assetTemplate.findMany({ orderBy: { sortOrder: "asc" } }),
+    prisma.assetTemplate.findMany({
+      where,
+      orderBy: { sortOrder: "asc" },
+    }),
     prisma.roomTemplate.findMany({
+      where,
       orderBy: { sortOrder: "asc" },
       include: {
         recommendedSetup: { orderBy: { sortOrder: "asc" } },
       },
     }),
     prisma.buildingPreset.findMany({
+      where,
       orderBy: { sortOrder: "asc" },
       include: {
         floors: { orderBy: { index: "asc" } },
@@ -314,6 +324,7 @@ export async function getPlannerCatalog(): Promise<PlannerCatalog> {
   ]);
 
   return {
+    vertical,
     assetTemplates: assetRows.map(toAsset),
     roomTemplates: roomRows.map(toRoom),
     buildingPresets: presetRows.map(toPreset),

@@ -7,7 +7,8 @@ import { Logo } from "./logo";
 
 const exploreLinks = [
   { href: "/facilities", label: "Facilities" },
-  { href: "/planner", label: "Building planner" },
+  { href: "/planner", label: "Hospital planner" },
+  { href: "/planner/hotels", label: "Hotel planner" },
   { href: "/#roadmap", label: "Capital roadmap" },
   { href: "/contact", label: "Contact" },
 ];

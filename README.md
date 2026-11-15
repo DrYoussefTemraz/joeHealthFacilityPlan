@@ -2,8 +2,9 @@
 
 A Next.js starter for **healthcare facility master and capital planning**: one
 view of site capacity, functional zones and every capital project in a facility
-portfolio, from concept through commissioning. It also includes an interactive
-**virtual hospital building planner** at `/planner`.
+portfolio, from concept through commissioning. It also includes interactive
+**virtual hospital** and **virtual hotel** building planners at `/planner` and
+`/planner/hotels`.
 
 > This is a starter project with sample data. It does not represent a real
 > capital program, budget or approval for any facility.
@@ -43,6 +44,7 @@ Open http://localhost:3000.
 | `/facilities`           | Every facility as a card, plus a portfolio comparison table                    |
 | `/facilities/[slug]`    | One facility: key metrics, capital program with progress, functional zones, service lines |
 | `/planner`              | Virtual hospital building planner: add rooms floor by floor, equip them, review utilities, totals and bill of materials |
+| `/planner/hotels`       | Virtual hotel building planner: the same flow with guest rooms, suites, front-of-house and back-of-house spaces |
 | `/contact`              | Planning office details and a placeholder request form                        |
 
 ## Project structure
@@ -55,6 +57,7 @@ src/
     facilities/page.tsx           Facility list + comparison table
     facilities/[slug]/page.tsx    Facility plan (generateStaticParams + generateMetadata)
     planner/page.tsx              Virtual hospital building planner
+    planner/hotels/page.tsx       Virtual hotel building planner
     contact/page.tsx              Contact
     contact/actions.ts            Server Action: validate + save review requests
     globals.css                   Design tokens (light + dark) and base styles
@@ -73,6 +76,8 @@ src/
     planner/
       building-planner.tsx        Client boundary: state, localStorage and example loading
       building-reducer.ts         Pure reducer for rooms, floors and placed assets
+      planner-shell.tsx           Shared page frame for both planner verticals
+      planner-switcher.tsx        Tabs linking the hospital and hotel planners
       floor-card.tsx              Floor section and grouped add-room dropdown
       room-card.tsx               Room header, item lists and quantity controls
       asset-picker.tsx            Searchable, category-grouped compatible-item picker
@@ -87,8 +92,9 @@ src/
       facilities.ts               Portfolio seed data (not read by pages)
     format.ts                     Currency, area and percent formatting
     planner.ts                    Compatibility, totals and bill-of-materials helpers
+    planner-verticals.ts          Page copy, storage keys and defaults per vertical
     planner-data/
-      index.ts                    Combines room, asset and preset seed data
+      index.ts                    Combines the healthcare catalog and re-exports the hotel catalog
       rooms.ts                    Room templates and recommended-setup references
       setups.ts                   Reusable recommended-setup lists and the q() helper
       devices.ts                  Point-of-care devices
@@ -96,7 +102,17 @@ src/
       medical-furniture.ts        Clinical furniture, carts and storage
       non-medical-furniture.ts    Office, waiting, meeting and staff furniture
       machines.ts                 Plant, IT, laundry and back-of-house machinery
-      presets.ts                  Example buildings
+      presets.ts                  Example hospital buildings
+      hotel/
+        index.ts                  Combines the hotel room, asset and preset data
+        rooms.ts                  Guest room, suite and back-of-house templates
+        setups.ts                 Reusable hotel recommended-setup lists
+        devices.ts                Guest-facing and operational devices
+        equipment.ts              Kitchen, laundry, AV and wellness equipment
+        guest-furniture.ts        Guest room beds, casegoods and softgoods
+        public-furniture.ts       Lobby, restaurant, meeting and outdoor furniture
+        machines.ts               Plant, IT and laundry machinery
+        presets.ts                Example select-service, city and resort hotels
 prisma/
   data/
     catalog-assets-priced.csv     USD planning prices applied to the catalog
@@ -114,19 +130,25 @@ prisma/
   and a facility-condition-index style rating (`good` / `fair` / `poor`).
 - **`CapitalProject`** — one project in the roadmap: category, phase, budget,
   start and target year, progress.
-- **`RoomTemplate`** — a planner room type: category, default area, patient
-  beds, required utilities and a recommended asset setup.
-- **`AssetTemplate`** — one of five planner item groups (`device`, `equipment`,
-  `medical-furniture`, `non-medical-furniture`, `machine`) with a unit cost,
-  utilities, compatible room categories and installation type.
+- **`RoomTemplate`** — a planner room type in one vertical: category, default
+  area, patient beds, required utilities and a recommended asset setup.
+- **`AssetTemplate`** — one of five planner item groups with a unit cost,
+  utilities, compatible room categories and installation type. The groups are
+  `device`, `equipment`, `medical-furniture`, `non-medical-furniture` and
+  `machine` for hospitals, and `device`, `equipment`, `guest-furniture`,
+  `public-furniture` and `machine` for hotels.
+- **`BuildingPreset`** — an example floor plan with rooms and optional asset
+  overrides, scoped to one vertical.
 - **`BuildingPlan`** — the client-side plan: named floors, placed rooms and
   quantities of placed assets. It is serialisable so it can be persisted to an
   API later.
 
 Money is stored in **cents**; areas in **square meters**. The sample portfolio is
 four Texas sites (hospital, surgical center, outpatient clinic, diagnostic
-center) with ten capital projects between them. The planner catalog contains
-130 room templates and 248 assets across its five item groups.
+center) with ten capital projects between them. The planner catalogs contain 130
+hospital room templates with 248 assets, and 70 hotel spaces with 183 assets.
+Assets, rooms and presets are scoped by a `vertical` column (`healthcare` or
+`hospitality`) so both planners share the same tables.
 
 ## The data layer
 
@@ -143,9 +165,9 @@ queries evolve.
 The database-backed getters are wrapped in `"use cache"` with `cacheLife` and
 `cacheTag`, so prerendered pages can include the data without a request-time
 query. Tags are `facilities`, `facility-<slug>`, `projects` and
-`planner-catalog`. The mappers return plain objects because cached values must
-be serializable; `CapitalProject.budgetCents` is a Postgres `BIGINT` converted
-to a number.
+`planner-catalog-<vertical>`. The mappers return plain objects because cached
+values must be serializable; `CapitalProject.budgetCents` is a Postgres
+`BIGINT` converted to a number.
 
 Asset structure still comes from `src/lib/planner-data/`. Unit prices are
 overlaid from `prisma/data/catalog-assets-priced.csv`; the matching
@@ -153,8 +175,8 @@ overlaid from `prisma/data/catalog-assets-priced.csv`; the matching
 source notes. The seed matches both files by asset ID and refuses to run if any
 ID is missing, duplicated or unknown. The USD values in the database are
 planning estimates, not verified procurement quotations. The current baseline
-has 247 low-confidence expert estimates and one medium-confidence historical
-benchmark.
+has 335 low-confidence expert estimates and 96 medium-confidence benchmark,
+range or supplier-derived estimates.
 
 ### Local database setup
 
@@ -213,47 +235,62 @@ npm run db:studio
 Open the `ReviewRequest` model. For production, add an authenticated admin page
 or a notification email instead of exposing the table.
 
-## Virtual building planner
+## Virtual building planners
 
-`/planner` is an illustrative planning toy for assembling a hospital floor by
-floor. A room is added from a grouped dropdown, then equipped from exactly five
-item groups:
+`/planner` assembles a hospital floor by floor; `/planner/hotels` does the same
+for a hotel. Both share one interaction model: rooms are added from a grouped
+dropdown, then equipped from exactly five item groups.
 
-**devices**, **equipment**, **medical furniture**, **non-medical furniture** and
-**machines**.
+| Vertical | Item groups                                                                 |
+| -------- | --------------------------------------------------------------------------- |
+| Hospital | devices, equipment, medical furniture, non-medical furniture, machines       |
+| Hotel    | devices, equipment, guest room furniture, public & staff furniture, machines |
 
-The catalog covers 15 room categories, from inpatient and critical care through
-imaging, laboratories, pharmacy, sterile processing, rehabilitation, support,
-administration and plant engineering. Each room template declares its default
-area, patient beds, utilities and a recommended setup. Asset compatibility is
-data-driven: every asset lists the room categories it belongs in, and `"all"` is
-reserved for genuinely universal items such as waste bins or sharps holders.
+The hospital catalog covers 15 room categories, from inpatient and critical care
+through imaging, laboratories, pharmacy, sterile processing, rehabilitation,
+support, administration and plant engineering. The hotel catalog covers 15
+spaces: guest rooms, suites, front office and lobby, food and beverage, kitchen
+and servery, meeting and events, wellness and leisure, housekeeping and laundry,
+back of house, guest services, health and safety, parking and transport, outdoor
+and leisure, engineering and plant, plus shared administrative and staff areas.
 
-The summary panel totals patient beds, area, item quantities, estimated asset
-cost, category spend and the building services the plan requires. The bill of
-materials aggregates every placed item across rooms, with quantities, unit costs
-and extended costs.
+Each room template declares its default area, beds, utilities and a recommended
+setup. Asset compatibility is data-driven: every asset lists the room categories
+it belongs in, and `"all"` is reserved for genuinely universal items such as
+waste bins.
+
+The summary panel totals beds, area, item quantities, estimated asset cost,
+category spend and the building services the plan requires. The bill of materials
+aggregates every placed item across rooms, with quantities, unit costs and
+extended costs.
 
 ### Persistence and examples
 
-- State is held in the `BuildingPlanner` client component and autosaved to
-  `joehealthplan.virtual-building.v1` in `localStorage`.
+- State is held in the `BuildingPlanner` client component. Each vertical has its
+  own storage key: `joehealthplan.virtual-building.v1` for hospitals and
+  `joehealthplan.virtual-hotel.v1` for hotels.
 - Reloading restores the saved plan. **Reset** clears it.
 - **Load example** replaces the plan after confirmation using one of the presets
-  in `src/lib/planner-data/presets.ts`.
+  in `src/lib/planner-data/presets.ts` or `src/lib/planner-data/hotel/presets.ts`.
 - Room, asset and floor IDs are generated only in event handlers. This matters
   because `crypto.randomUUID()` and `Math.random()` throw during prerendering
   with `cacheComponents`.
 
 ### Adding catalog data
 
-1. Add an `AssetTemplate` to the matching file in `src/lib/planner-data/` with a
-   unique kebab-case `id`, a fallback unit cost in cents, utilities,
-   installation type and compatible room categories.
+Hospital data lives in `src/lib/planner-data/`; hotel data lives in
+`src/lib/planner-data/hotel/`. Hotel asset and room IDs are prefixed with
+`hotel-` so they cannot collide with hospital IDs in the shared tables.
+
+1. Add an `AssetTemplate` to the matching file with a unique kebab-case `id`, a
+   fallback unit cost in cents, utilities, installation type and compatible room
+   categories.
 2. Add or reuse a recommended setup in `setups.ts` using `q("asset-id", qty)`.
-3. Add a `RoomTemplate` to `rooms.ts` with its category, default area, patient
-   beds, utilities and `recommendedSetup`.
-4. Update `presets.ts` only if the example hospital should include the new room.
+   Composite hotel setups use `mergeSetups()` so an asset never appears twice in
+   one room.
+3. Add a `RoomTemplate` to `rooms.ts` with its category, default area, beds,
+   utilities and `recommendedSetup`.
+4. Update `presets.ts` only if the example building should include the new room.
 5. Add one row for the new `id` to both
    `prisma/data/catalog-assets-priced.csv` and
    `prisma/data/catalog-assets-sources.csv`.
@@ -261,7 +298,8 @@ and extended costs.
    `npm run db:seed`, lint, type-check and build.
 
 Costs, utilities, room sizes and recommended setups are planning inputs for
-demonstration. They are **not** procurement, engineering or clinical guidance.
+demonstration. They are **not** procurement, engineering, clinical or design
+guidance.
 
 ## Things to know about this Next.js version
 

@@ -124,8 +124,12 @@ export interface ContactDetail {
  * database or API call without changing the UI.
  */
 
+/** Which building planner a catalog row belongs to. */
+export type PlannerVertical = "healthcare" | "hospitality";
+
 /** Functional grouping used by the "Add room" dropdown. */
 export type RoomCategory =
+  // Healthcare
   | "inpatient"
   | "critical-care"
   | "maternal-pediatric"
@@ -140,18 +144,36 @@ export type RoomCategory =
   | "ambulatory"
   | "support-logistics"
   | "administrative-staff"
-  | "plant-engineering";
+  | "plant-engineering"
+  // Hospitality
+  | "guest-rooms"
+  | "suites"
+  | "front-office"
+  | "food-beverage"
+  | "kitchen"
+  | "meeting-events"
+  | "wellness-leisure"
+  | "housekeeping-laundry"
+  | "back-of-house"
+  | "guest-services"
+  | "health-safety"
+  | "parking-transport"
+  | "outdoor-leisure"
+  | "engineering-plant";
 
 /**
- * The five item groups exposed in the planner. The split keeps clinical
- * point-of-care devices separate from major equipment, furniture and the
- * building/back-of-house machinery.
+ * The five item groups exposed in each planner. The split keeps small devices
+ * separate from major equipment, furniture and building/back-of-house
+ * machinery. Healthcare and hospitality use different furniture groups but the
+ * same five-slot structure.
  */
 export type AssetCategory =
   | "device"
   | "equipment"
   | "medical-furniture"
   | "non-medical-furniture"
+  | "guest-furniture"
+  | "public-furniture"
   | "machine";
 
 /** Confidence attached to the preliminary USD unit-cost estimates. */
@@ -240,6 +262,8 @@ export interface BuildingPreset {
 
 /** Everything the planner needs from the data layer. */
 export interface PlannerCatalog {
+  /** Selects the room/asset ordering and display wording. */
+  vertical: PlannerVertical;
   roomTemplates: RoomTemplate[];
   assetTemplates: AssetTemplate[];
   buildingPresets: BuildingPreset[];

@@ -68,6 +68,9 @@ model CapitalProject {
 
 model AssetTemplate {
   id                   String             @id
+  // "healthcare" or "hospitality". The planner catalogue is split by vertical
+  // while sharing the same tables and UI logic.
+  vertical             String             @default("healthcare")
   name                 String
   category             String
   description          String
@@ -90,10 +93,12 @@ model AssetTemplate {
   presetRoomAssets     PresetRoomAsset[]
 
   @@index([category])
+  @@index([vertical])
 }
 
 model RoomTemplate {
   id               String             @id
+  vertical         String             @default("healthcare")
   name             String
   category         String
   description      String
@@ -105,6 +110,7 @@ model RoomTemplate {
   presetRooms      PresetRoom[]
 
   @@index([category])
+  @@index([vertical])
 }
 
 model RecommendedAsset {
@@ -120,11 +126,14 @@ model RecommendedAsset {
 
 model BuildingPreset {
   id          String        @id
+  vertical    String        @default("healthcare")
   name        String
   description String
   sortOrder   Int           @default(0)
   floors      PresetFloor[]
   rooms       PresetRoom[]
+
+  @@index([vertical])
 }
 
 model PresetFloor {

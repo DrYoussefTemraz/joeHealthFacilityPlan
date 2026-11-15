@@ -10,8 +10,8 @@ import {
 } from "@/components/labels";
 import { formatArea, formatCurrency } from "@/lib/format";
 import {
-  ASSET_CATEGORY_ORDER,
   createAssetMap,
+  getAssetCategoryOrder,
   getRecommendedAssets,
   getRoomAssetCost,
   getRoomAssetQuantity,
@@ -70,7 +70,7 @@ export function RoomCard({
     return asset ? [{ placed, asset }] : [];
   });
 
-  const groups = ASSET_CATEGORY_ORDER.map((category) => ({
+  const groups = getAssetCategoryOrder(catalog.vertical).map((category) => ({
     category,
     rows: rows.filter((row) => row.asset.category === category),
   })).filter((group) => group.rows.length > 0);
@@ -110,7 +110,7 @@ export function RoomCard({
         <Badge variant="neutral">{formatArea(room.areaSqm)}</Badge>
         <Badge variant="neutral">
           {template.patientBeds === 0
-            ? "No patient beds"
+            ? "No beds"
             : `${template.patientBeds} ${template.patientBeds === 1 ? "bed" : "beds"}`}
         </Badge>
         {visibleUtilities.map((utility) => (
